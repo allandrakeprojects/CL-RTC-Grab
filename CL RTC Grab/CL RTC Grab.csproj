@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cookie.cs" />
     <Compile Include="Main_Form.cs">
       <SubType>Form</SubType>
     </Compile>
