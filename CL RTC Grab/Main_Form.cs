@@ -6,11 +6,11 @@ using System.Collections.Specialized;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using mshtml;
 
 namespace CL_RTC_Grab
 {
@@ -264,6 +264,7 @@ namespace CL_RTC_Grab
                             timer.Stop();
                             label_status.Text = "-";
                             label_player_last_registered.Text = "-";
+                            webBrowser.Document.Body.Style = "zoom:.8";
                             webBrowser.Visible = true;
                             label_brand.Visible = false;
                             pictureBox_loader.Visible = false;
@@ -354,9 +355,30 @@ namespace CL_RTC_Grab
             }
         }
 
+        [DllImport("user32.dll", EntryPoint = "FindWindow", SetLastError = true, CharSet = CharSet.Unicode)]
+        static extern IntPtr FindWindowByCaption(IntPtr ZeroOnly, string lpWindowName);
 
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        static extern IntPtr SendMessage(IntPtr hWnd, UInt32 Msg, IntPtr wParam, IntPtr lParam);
 
+        const UInt32 WM_CLOSE = 0x0010;
 
+        void ___CloseMessageBox()
+        {
+            IntPtr windowPtr = FindWindowByCaption(IntPtr.Zero, "Message from webpage");
+
+            if (windowPtr == IntPtr.Zero)
+            {
+                return;
+            }
+
+            SendMessage(windowPtr, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
+        }
+
+        private void timer_close_message_box_Tick(object sender, EventArgs e)
+        {
+            ___CloseMessageBox();
+        }
 
 
 
@@ -430,10 +452,10 @@ namespace CL_RTC_Grab
         {
             if (__index == 0)
             {
-                if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\test_cl.txt"))
-                {
-                    File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\test_cl.txt");
-                }
+                //if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\test_cl.txt"))
+                //{
+                //    File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\test_cl.txt");
+                //}
 
                 __player_info.Clear();
             }
@@ -498,21 +520,7 @@ namespace CL_RTC_Grab
                 }
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
         private void ___PlayerLastRegistered()
         {
             // handle last registered player

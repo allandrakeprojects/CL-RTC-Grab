@@ -42,6 +42,7 @@
             this.label_status = new System.Windows.Forms.Label();
             this.timer = new System.Windows.Forms.Timer(this.components);
             this.label_player_last_registered = new System.Windows.Forms.Label();
+            this.timer_close_message_box = new System.Windows.Forms.Timer(this.components);
             this.panel_header.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_minimize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_close)).BeginInit();
@@ -189,6 +190,11 @@
             this.label_player_last_registered.Visible = false;
             this.label_player_last_registered.MouseDown += new System.Windows.Forms.MouseEventHandler(this.label_player_last_registered_MouseDown);
             // 
+            // timer_close_message_box
+            // 
+            this.timer_close_message_box.Enabled = true;
+            this.timer_close_message_box.Tick += new System.EventHandler(this.timer_close_message_box_Tick);
+            // 
             // Main_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -205,6 +211,8 @@
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximumSize = new System.Drawing.Size(466, 468);
+            this.MinimumSize = new System.Drawing.Size(466, 468);
             this.Name = "Main_Form";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CL RTC Grab";
@@ -233,5 +241,6 @@
         private System.Windows.Forms.Label label_status;
         private System.Windows.Forms.Timer timer;
         private System.Windows.Forms.Label label_player_last_registered;
+        private System.Windows.Forms.Timer timer_close_message_box;
     }
 }
