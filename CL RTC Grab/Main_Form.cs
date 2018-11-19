@@ -11,6 +11,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using mshtml;
+using System.Threading.Tasks;
 
 namespace CL_RTC_Grab
 {
@@ -448,7 +449,7 @@ namespace CL_RTC_Grab
             }
         }
 
-        private void ___PlayerListAsync()
+        private async void ___PlayerListAsync()
         {
             if (__index == 0)
             {
@@ -478,6 +479,9 @@ namespace CL_RTC_Grab
                     JToken date_time_register = __jo.SelectToken("PageData[" + i + "].JoinTime").ToString();
                     //MessageBox.Show(username.ToString());
                     //MessageBox.Show(name.ToString());
+
+                    await ___PlayerGetDetailAsync(username.ToString());
+
                     try
                     {
                         DateTime date_time_register_replace = DateTime.ParseExact(date_time_register.ToString(), "MM/dd/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
@@ -486,7 +490,11 @@ namespace CL_RTC_Grab
                         {
                             file.WriteLine(username + "*|*" + name + "*|*" + date_time_register_replace.ToString("yyyy-MM-dd HH:mm:ss") + "*|*" + __player_ldd + "*|*" + __playerlist_cn + "*|*" + __playerlist_ea);
                         }
-                        __player_info.Add(username + "*|*" + name + "*|*" + date_time_register_replace.ToString("yyyy-MM-dd HH:mm:ss") + " " + date_time_register + "*|*" + __player_ldd + "*|*" + __playerlist_cn + "*|*" + __playerlist_ea);
+                        __player_info.Add(username + "*|*" + name + "*|*" + date_time_register_replace.ToString("yyyy-MM-dd HH:mm:ss") + "*|*" + __player_ldd + "*|*" + __playerlist_cn + "*|*" + __playerlist_ea);
+
+                        __playerlist_cn = "";
+                        __playerlist_ea = "";
+                        __player_ldd = "";
 
                         if (i == 9)
                         {
@@ -520,7 +528,77 @@ namespace CL_RTC_Grab
                 }
             }
         }
-        
+
+        private async Task ___PlayerGetDetailAsync(string username)
+        {
+            try
+            {
+                var cookie = Cookie.GetCookieInternal(webBrowser.Url, false);
+                WebClient wc = new WebClient();
+
+                wc.Headers.Add("Cookie", cookie);
+                wc.Encoding = Encoding.UTF8;
+                wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+                wc.Headers["X-Requested-With"] = "XMLHttpRequest";
+
+                var reqparm = new NameValueCollection
+                {
+                    {"account", username}
+                };
+
+                byte[] result = await wc.UploadValuesTaskAsync("http://sn.gk001.gpk456.com/Member/GetDetail", "POST", reqparm);
+                string responsebody = Encoding.UTF8.GetString(result);
+                var deserializeObject = JsonConvert.DeserializeObject(responsebody);
+                var jo = JObject.Parse(deserializeObject.ToString());
+                __playerlist_ea = jo.SelectToken("Member.Email").ToString();
+                JToken id = jo.SelectToken("Member.Id").ToString();
+                __playerlist_cn = jo.SelectToken("Member.Mobile").ToString();
+                await ___PlayerGetLastDepositCountAsync(id.ToString());
+            }
+            catch (Exception err)
+            {
+                await ___PlayerGetDetailAsync(username);
+            }
+        }
+
+        private async Task ___PlayerGetLastDepositCountAsync(string id)
+        {
+            try
+            {
+                var cookie = Cookie.GetCookieInternal(webBrowser.Url, false);
+                WebClient wc = new WebClient();
+
+                wc.Headers.Add("Cookie", cookie);
+                wc.Encoding = Encoding.UTF8;
+                wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+                wc.Headers["X-Requested-With"] = "XMLHttpRequest";
+
+                var reqparm = new NameValueCollection
+                {
+                    {"id", id}
+                };
+
+                byte[] result = await wc.UploadValuesTaskAsync("http://sn.gk001.gpk456.com/Member/GetDepositWithdrawInfo", "POST", reqparm);
+                string responsebody = Encoding.UTF8.GetString(result);
+                var deserializeObject = JsonConvert.DeserializeObject(responsebody);
+                var jo = JObject.Parse(deserializeObject.ToString());
+                __player_ldd = jo.SelectToken("DepositTimes").ToString();
+                if (Convert.ToInt16(__player_ldd.ToString()) > 0)
+                {
+                    __player_ldd = "1";
+                }
+                else
+                {
+                    __player_ldd = "0";
+                }
+            }
+            catch (Exception err)
+            {
+                await ___PlayerGetLastDepositCountAsync(id);
+            }
+        }
+
+
         private void ___PlayerLastRegistered()
         {
             // handle last registered player
