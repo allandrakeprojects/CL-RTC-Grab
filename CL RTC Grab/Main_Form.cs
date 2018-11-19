@@ -381,10 +381,6 @@ namespace CL_RTC_Grab
             ___CloseMessageBox();
         }
 
-
-
-
-
         // ----- Functions
         private async void ___GetConnIDRequestAsync()
         {
