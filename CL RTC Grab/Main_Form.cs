@@ -11,6 +11,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
 using System.Threading.Tasks;
+using System.Security.Cryptography;
 
 namespace CL_RTC_Grab
 {
@@ -38,6 +39,8 @@ namespace CL_RTC_Grab
         private string __get_time;
         List<string> __player_info = new List<string>();
         private bool __isInsert = false;
+        private string __brand_code = "CL";
+        private int __count = 0;
 
         // Drag Header to Move
         [DllImport("user32.dll")]
@@ -294,6 +297,7 @@ namespace CL_RTC_Grab
                     {
                         MessageBox.Show("No internet connection detected. Please call IT Support, thank you!", "CL", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         __isClose = false;
+                        Application.Restart();
                         Environment.Exit(0);
                     }
                 }
@@ -303,7 +307,7 @@ namespace CL_RTC_Grab
         private void timer_Tick(object sender, EventArgs e)
         {
             label_status.Font = new Font("Microsoft Sans Serif", 12, FontStyle.Bold);
-            label_status.Location = new Point(0, 70);
+            label_status.Location = new Point(1, 70);
             DateTime start = DateTime.ParseExact(__start_time, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
             DateTime end = DateTime.ParseExact(__end_time, "dd/MM/yyyy HH:mm:ss", CultureInfo.InvariantCulture);
 
@@ -352,6 +356,14 @@ namespace CL_RTC_Grab
                     label_status.Text = timeRemaining.Seconds.ToString();
                     label_status.Visible = true;
                 }
+            }
+
+            if (label_status.Text.Contains("-"))
+            {
+                MessageBox.Show("There's a problem to the server. Please call IT Support, thank you!", "CL", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                __isClose = false;
+                Application.Restart();
+                Environment.Exit(0);
             }
         }
 
@@ -448,15 +460,14 @@ namespace CL_RTC_Grab
         {
             if (__index == 0)
             {
+                __player_info.Clear();
+                
                 //if (File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\test_cl.txt"))
                 //{
                 //    File.Delete(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\test_cl.txt");
                 //}
-
-                __player_info.Clear();
             }
-            
-            
+
             for (int i = 0; i < 10; i++)
             {
                 JToken username = __jo.SelectToken("PageData[" + i + "].Account").ToString();
@@ -509,17 +520,177 @@ namespace CL_RTC_Grab
                     if (__isInsert)
                     {
                         __isInsert = false;
-                        ___SavePlayerLastRegistered(__player_last_username);
-                        // send to api by 11 pm
-                        // get last register
-                        // save last register
+                        // send to api 
+                        if (__player_info.Count != 0)
+                        {
+                            __player_info.Reverse();
+                            string player_info_get = String.Join(",", __player_info);
+                            string[] values = player_info_get.Split(',');
+                            foreach (string value in values)
+                            {
+                                string[] values_inner = value.Split(new string[] { "*|*" }, StringSplitOptions.None);
+                                int count = 0;
+                                string _username = "";
+                                string _name = "";
+                                string _date_register = "";
+                                string _date_deposit = "";
+                                string _cn = "";
+                                string _email = "";
+                                string _agent = "";
+
+                                foreach (string value_inner in values_inner)
+                                {
+                                    count++;
+
+                                    // Username
+                                    if (count == 1)
+                                    {
+                                        _username = value_inner;
+                                    }
+                                    // Name
+                                    else if (count == 2)
+                                    {
+                                        _name = value_inner;
+                                    }
+                                    // Register Date
+                                    else if (count == 3)
+                                    {
+                                        _date_register = value_inner;
+                                    }
+                                    // Last Deposit Date
+                                    else if (count == 4)
+                                    {
+                                        _date_deposit = value_inner;
+                                    }
+                                    // Contact Number
+                                    else if (count == 5)
+                                    {
+                                        _cn = value_inner;
+                                    }
+                                    // Email
+                                    else if (count == 6)
+                                    {
+                                        _email = value_inner;
+                                    }
+                                    // Agent
+                                    else if (count == 7)
+                                    {
+                                        _agent = value_inner;
+                                    }
+                                }
+
+                                // ----- Insert Data
+                                ___InsertData(_username, _name, _date_register, _date_deposit, _cn, _email, _agent, __brand_code);
+                                __count = 0;
+                            }
+
+                            ___SavePlayerLastRegistered(__player_last_username);
+                            timer_detect.Start();
+                            __player_info.Clear();
+                        }
                     }
+                    
                     __index = 0;
                     timer.Start();
                     __start_time = DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss");
                     __end_time = DateTime.Now.AddSeconds(302).ToString("dd/MM/yyyy HH:mm:ss");
                     break;
 
+                }
+            }
+        }
+
+        private void ___InsertData(string username, string name, string date_register, string date_deposit, string contact, string email, string agent, string brand_code)
+        {
+            try
+            {
+                string password = username + date_register + "youdieidie";
+                byte[] encodedPassword = new UTF8Encoding().GetBytes(password);
+                byte[] hash = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5")).ComputeHash(encodedPassword);
+                string token = BitConverter.ToString(hash)
+                   .Replace("-", string.Empty)
+                   .ToLower();
+
+                using (var wb = new WebClient())
+                {
+                    var data = new NameValueCollection
+                    {
+                        ["username"] = username,
+                        ["name"] = name,
+                        ["date_register"] = date_register,
+                        ["date_deposit"] = date_deposit,
+                        ["contact"] = contact,
+                        ["email"] = email,
+                        ["agent"] = agent,
+                        ["brand_code"] = brand_code,
+                        ["token"] = token
+                    };
+
+                    var response = wb.UploadValues("http://zeus.ssitex.com:8080/API/sendRTC", "POST", data);
+                    string responseInString = Encoding.UTF8.GetString(response);
+                }
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.ToString());
+                __count++;
+                if (__count == 5)
+                {
+                    MessageBox.Show("There's a problem to the server. Please call IT Support, thank you!", "FY", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    __isClose = false;
+                    Application.Restart();
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    ____InsertData2(username, name, date_register, date_deposit, contact, email, agent, brand_code);
+                }
+            }
+        }
+
+        private void ____InsertData2(string username, string name, string date_register, string date_deposit, string contact, string email, string agent, string brand_code)
+        {
+            try
+            {
+                string password = username + date_register + "youdieidie";
+                byte[] encodedPassword = new UTF8Encoding().GetBytes(password);
+                byte[] hash = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5")).ComputeHash(encodedPassword);
+                string token = BitConverter.ToString(hash)
+                   .Replace("-", string.Empty)
+                   .ToLower();
+
+                using (var wb = new WebClient())
+                {
+                    var data = new NameValueCollection
+                    {
+                        ["username"] = username,
+                        ["name"] = name,
+                        ["date_register"] = date_register,
+                        ["date_deposit"] = date_deposit,
+                        ["contact"] = contact,
+                        ["email"] = email,
+                        ["agent"] = agent,
+                        ["brand_code"] = brand_code,
+                        ["token"] = token
+                    };
+
+                    var response = wb.UploadValues("http://zeus2.ssitex.com:8080/API/sendRTC", "POST", data);
+                    string responseInString = Encoding.UTF8.GetString(response);
+                }
+            }
+            catch (Exception err)
+            {
+                __count++;
+                if (__count == 5)
+                {
+                    MessageBox.Show("There's a problem to the server. Please call IT Support, thank you!", "FY", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    __isClose = false;
+                    Application.Restart();
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    ___InsertData(username, name, date_register, date_deposit, contact, email, agent, brand_code);
                 }
             }
         }
@@ -605,7 +776,7 @@ namespace CL_RTC_Grab
                 // handle request
             }
 
-            //Properties.Settings.Default.______last_registered_player = "a76847510";
+            //Properties.Settings.Default.______last_registered_player = "bq1277";
             //Properties.Settings.Default.Save();
 
             label_player_last_registered.Text = "Last Registered: " + Properties.Settings.Default.______last_registered_player;
@@ -621,6 +792,7 @@ namespace CL_RTC_Grab
         private void timer_detect_Tick(object sender, EventArgs e)
         {
             __isInsert = true;
+            timer_detect.Stop();
             //__get_time = DateTime.Now.ToString("HH:mm:ss");
             //if (__get_time == "23:00:00")
             //{

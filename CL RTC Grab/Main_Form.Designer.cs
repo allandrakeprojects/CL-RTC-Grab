@@ -40,9 +40,10 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox_loader = new System.Windows.Forms.PictureBox();
             this.label_status = new System.Windows.Forms.Label();
-            this.timer = new System.Windows.Forms.Timer(this.components);
+            this.timer_detect = new System.Windows.Forms.Timer(this.components);
             this.label_player_last_registered = new System.Windows.Forms.Label();
             this.timer_close_message_box = new System.Windows.Forms.Timer(this.components);
+            this.timer = new System.Windows.Forms.Timer(this.components);
             this.panel_header.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_minimize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_close)).BeginInit();
@@ -172,10 +173,11 @@
             this.label_status.Visible = false;
             this.label_status.MouseDown += new System.Windows.Forms.MouseEventHandler(this.label_status_MouseDown);
             // 
-            // timer
+            // timer_detect
             // 
-            this.timer.Interval = 1000;
-            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            this.timer_detect.Enabled = true;
+            this.timer_detect.Interval = 600000;
+            this.timer_detect.Tick += new System.EventHandler(this.timer_detect_Tick);
             // 
             // label_player_last_registered
             // 
@@ -195,6 +197,11 @@
             // 
             this.timer_close_message_box.Enabled = true;
             this.timer_close_message_box.Tick += new System.EventHandler(this.timer_close_message_box_Tick);
+            // 
+            // timer
+            // 
+            this.timer.Interval = 1000;
+            this.timer.Tick += new System.EventHandler(this.timer_Tick);
             // 
             // Main_Form
             // 
@@ -240,8 +247,9 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label_status;
-        private System.Windows.Forms.Timer timer;
+        private System.Windows.Forms.Timer timer_detect;
         private System.Windows.Forms.Label label_player_last_registered;
         private System.Windows.Forms.Timer timer_close_message_box;
+        private System.Windows.Forms.Timer timer;
     }
 }
