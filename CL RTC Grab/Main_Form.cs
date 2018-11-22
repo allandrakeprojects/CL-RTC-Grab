@@ -491,11 +491,7 @@ namespace CL_RTC_Grab
                     try
                     {
                         DateTime date_time_register_replace = DateTime.ParseExact(date_time_register.ToString(), "MM/dd/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
-
-                        using (StreamWriter file = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\test_cl.txt", true, Encoding.UTF8))
-                        {
-                            file.WriteLine(username + "*|*" + name + "*|*" + date_time_register_replace.ToString("yyyy-MM-dd HH:mm:ss") + "*|*" + __player_ldd + "*|*" + __playerlist_cn + "*|*" + __playerlist_ea);
-                        }
+                        
                         __player_info.Add(username + "*|*" + name + "*|*" + date_time_register_replace.ToString("yyyy-MM-dd HH:mm:ss") + "*|*" + __player_ldd + "*|*" + __playerlist_cn + "*|*" + __playerlist_ea);
 
                         __playerlist_cn = "";
@@ -580,14 +576,23 @@ namespace CL_RTC_Grab
                                 }
 
                                 // ----- Insert Data
+                                using (StreamWriter file = new StreamWriter(Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\test_cl.txt", true, Encoding.UTF8))
+                                {
+                                    file.WriteLine(_username + "*|*" + _name + "*|*" + _date_register + "*|*" + _date_deposit + "*|*" + _cn + "*|*" + _email + "*|*" + _agent + "*|*" + __brand_code);
+                                }
+                                using (StreamWriter file = new StreamWriter(Path.GetTempPath() + @"\test_cl.txt", true, Encoding.UTF8))
+                                {
+                                    file.WriteLine(_username + "*|*" + _name + "*|*" + _date_register + "*|*" + _date_deposit + "*|*" + _cn + "*|*" + _email + "*|*" + _agent + "*|*" + __brand_code);
+                                }
                                 ___InsertData(_username, _name, _date_register, _date_deposit, _cn, _email, _agent, __brand_code);
                                 __count = 0;
                             }
 
                             ___SavePlayerLastRegistered(__player_last_username);
-                            timer_detect.Start();
                             __player_info.Clear();
                         }
+                        
+                        timer_detect.Start();
                     }
                     
                     __index = 0;

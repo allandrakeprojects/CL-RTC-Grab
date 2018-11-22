@@ -176,7 +176,7 @@
             // timer_detect
             // 
             this.timer_detect.Enabled = true;
-            this.timer_detect.Interval = 600000;
+            this.timer_detect.Interval = 1200000;
             this.timer_detect.Tick += new System.EventHandler(this.timer_detect_Tick);
             // 
             // label_player_last_registered
