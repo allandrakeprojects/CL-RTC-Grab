@@ -263,6 +263,14 @@ namespace CL_RTC_Grab
                     {
                         if (webBrowser.Url.ToString().Equals("http://sn.gk001.gpk456.com/Account/Login"))
                         {
+                            System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.rtc_grab);
+                            bool isPlaying = false;
+                            if (__isStart)
+                            {
+                                player.PlayLooping();
+                                isPlaying = true;
+                            }
+                            
                             __isStart = false;
                             timer.Stop();
                             label_status.Text = "-";
@@ -274,6 +282,15 @@ namespace CL_RTC_Grab
                             label_status.Visible = false;
                             label_player_last_registered.Visible = false;
                             webBrowser.WebBrowserShortcutsEnabled = true;
+
+                            if (isPlaying)
+                            {
+                                DialogResult dr = MessageBox.Show("You've been logout please login again.", "CL", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                if (dr == DialogResult.OK)
+                                {
+                                    player.Stop();
+                                }
+                            }
                         }
 
                         if (webBrowser.Url.ToString().Equals("http://sn.gk001.gpk456.com/"))
@@ -295,9 +312,16 @@ namespace CL_RTC_Grab
                     }
                     catch (Exception err)
                     {
-                        MessageBox.Show("No internet connection detected. Please call IT Support, thank you!", "CL", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.rtc_grab);
+                        player.PlayLooping();
+
+                        DialogResult dr = MessageBox.Show("There's a problem to the server. Please call IT Support, thank you!", "CL", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        if (dr == DialogResult.OK)
+                        {
+                            player.Stop();
+                        }
+
                         __isClose = false;
-                        Application.Restart();
                         Environment.Exit(0);
                     }
                 }
@@ -360,9 +384,16 @@ namespace CL_RTC_Grab
 
             if (label_status.Text.Contains("-"))
             {
-                MessageBox.Show("There's a problem to the server. Please call IT Support, thank you!", "CL", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.rtc_grab);
+                player.PlayLooping();
+
+                DialogResult dr = MessageBox.Show("There's a problem to the server. Please call IT Support, thank you!", "CL", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                if (dr == DialogResult.OK)
+                {
+                    player.Stop();
+                }
+
                 __isClose = false;
-                Application.Restart();
                 Environment.Exit(0);
             }
         }
@@ -641,9 +672,16 @@ namespace CL_RTC_Grab
                 __count++;
                 if (__count == 5)
                 {
-                    MessageBox.Show("There's a problem to the server. Please call IT Support, thank you!", "FY", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.rtc_grab);
+                    player.PlayLooping();
+
+                    DialogResult dr = MessageBox.Show("There's a problem to the server. Please call IT Support, thank you!", "CL", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (dr == DialogResult.OK)
+                    {
+                        player.Stop();
+                    }
+
                     __isClose = false;
-                    Application.Restart();
                     Environment.Exit(0);
                 }
                 else
@@ -688,9 +726,16 @@ namespace CL_RTC_Grab
                 __count++;
                 if (__count == 5)
                 {
-                    MessageBox.Show("There's a problem to the server. Please call IT Support, thank you!", "FY", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.rtc_grab);
+                    player.PlayLooping();
+
+                    DialogResult dr = MessageBox.Show("There's a problem to the server. Please call IT Support, thank you!", "CL", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    if (dr == DialogResult.OK)
+                    {
+                        player.Stop();
+                    }
+
                     __isClose = false;
-                    Application.Restart();
                     Environment.Exit(0);
                 }
                 else
