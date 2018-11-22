@@ -384,6 +384,7 @@ namespace CL_RTC_Grab
 
             if (label_status.Text.Contains("-"))
             {
+                timer.Stop();
                 System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.rtc_grab);
                 player.PlayLooping();
 
