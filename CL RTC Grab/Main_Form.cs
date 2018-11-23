@@ -141,6 +141,8 @@ namespace CL_RTC_Grab
         public Main_Form()
         {
             InitializeComponent();
+
+            timer_landing.Start();
         }
 
         // Drag to Move
@@ -201,6 +203,22 @@ namespace CL_RTC_Grab
             }
         }
         private void label_player_last_registered_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
+        private void panel_landing_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
+        private void pictureBox_landing_MouseDown(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
@@ -849,6 +867,12 @@ namespace CL_RTC_Grab
             //{
             //    __isInsert = true;
             //}
+        }
+
+        private void timer_landing_Tick(object sender, EventArgs e)
+        {
+            panel_landing.Visible = false;
+            timer_landing.Stop();
         }
     }
 }
