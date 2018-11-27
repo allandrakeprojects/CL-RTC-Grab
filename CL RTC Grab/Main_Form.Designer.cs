@@ -39,7 +39,6 @@
             this.label_brand = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pictureBox_loader = new System.Windows.Forms.PictureBox();
-            this.label_status = new System.Windows.Forms.Label();
             this.timer_detect = new System.Windows.Forms.Timer(this.components);
             this.label_player_last_registered = new System.Windows.Forms.Label();
             this.timer_close_message_box = new System.Windows.Forms.Timer(this.components);
@@ -125,7 +124,7 @@
             this.webBrowser.ScriptErrorsSuppressed = true;
             this.webBrowser.Size = new System.Drawing.Size(445, 402);
             this.webBrowser.TabIndex = 2;
-            this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompleted);
+            this.webBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.webBrowser_DocumentCompletedAsync);
             // 
             // label_brand
             // 
@@ -163,21 +162,6 @@
             this.pictureBox_loader.Visible = false;
             this.pictureBox_loader.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_loader_MouseDown);
             // 
-            // label_status
-            // 
-            this.label_status.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label_status.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label_status.Location = new System.Drawing.Point(0, 65);
-            this.label_status.Name = "label_status";
-            this.label_status.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.label_status.Size = new System.Drawing.Size(466, 23);
-            this.label_status.TabIndex = 7;
-            this.label_status.Text = "-";
-            this.label_status.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.label_status.Visible = false;
-            this.label_status.MouseDown += new System.Windows.Forms.MouseEventHandler(this.label_status_MouseDown);
-            // 
             // timer_detect
             // 
             this.timer_detect.Enabled = true;
@@ -205,8 +189,8 @@
             // 
             // timer
             // 
-            this.timer.Interval = 1000;
-            this.timer.Tick += new System.EventHandler(this.timer_Tick);
+            this.timer.Interval = 30000;
+            this.timer.Tick += new System.EventHandler(this.timer_TickAsync);
             // 
             // panel_landing
             // 
@@ -244,7 +228,6 @@
             this.Controls.Add(this.panel_landing);
             this.Controls.Add(this.webBrowser);
             this.Controls.Add(this.label_player_last_registered);
-            this.Controls.Add(this.label_status);
             this.Controls.Add(this.label_brand);
             this.Controls.Add(this.pictureBox_loader);
             this.Controls.Add(this.panel_header);
@@ -280,7 +263,6 @@
         private System.Windows.Forms.Label label_brand;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label_status;
         private System.Windows.Forms.Timer timer_detect;
         private System.Windows.Forms.Label label_player_last_registered;
         private System.Windows.Forms.Timer timer_close_message_box;

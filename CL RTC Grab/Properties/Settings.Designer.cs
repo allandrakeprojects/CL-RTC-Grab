@@ -34,5 +34,17 @@ namespace CL_RTC_Grab.Properties {
                 this["______last_registered_player"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string ______last_registered_player_deposit {
+            get {
+                return ((string)(this["______last_registered_player_deposit"]));
+            }
+            set {
+                this["______last_registered_player_deposit"] = value;
+            }
+        }
     }
 }
