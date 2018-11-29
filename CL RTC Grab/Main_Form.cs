@@ -10,6 +10,8 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
+using System.Threading;
+using System.Globalization;
 
 namespace CL_RTC_Grab
 {
@@ -49,7 +51,8 @@ namespace CL_RTC_Grab
         List<string> __player_info_deposit = new List<string>();
         private string __player_ldd_deposit;
         private bool __isInsert_deposit = false;
-        private bool __isInsertDetect_deposit = true;
+        private bool __isInsertDetect_deposit = false;
+        private bool __detectInsert_deposit = false;
 
         // Drag Header to Move
         [DllImport("user32.dll")]
@@ -347,10 +350,11 @@ namespace CL_RTC_Grab
         {
             timer.Stop();
             await ___GetPlayerListsRequestAsync(__index.ToString(), __conn_id.ToString());
-            
             if (__isInsert_deposit)
             {
                 __isInsert_deposit = false;
+                __detectInsert_deposit = false;
+                __isInsertDetect_deposit = false;
                 ___GetPlayerListsRequestAsync_Deposit(__index_deposit.ToString(), __conn_id.ToString());
             }
         }
@@ -567,14 +571,22 @@ namespace CL_RTC_Grab
                             {
                                 file.WriteLine(_username + "*|*" + _name + "*|*" + _date_register + "*|*" + _date_deposit + "*|*" + _cn + "*|*" + _email + "*|*" + _agent + "*|*" + __brand_code);
                             }
-                            ___InsertData(_username, _name, _date_register, _date_deposit, _cn, _email, _agent, _qq, _wc, __brand_code);
+
+                            Thread t = new Thread(delegate () { ___InsertData(_username, _name, _date_register, _date_deposit, _cn, _email, _agent, _qq, _wc, __brand_code); });
+                            t.Start();
+                            
                             __count = 0;
                         }
-
-                        ___SavePlayerLastRegistered(__player_last_username);
+                        
                         __player_info.Clear();
                     }
 
+                    if (!String.IsNullOrEmpty(__player_last_username.Trim()))
+                    {
+                        ___SavePlayerLastRegistered(__player_last_username);
+                        label_player_last_registered.Text = "Last Registered: " + Properties.Settings.Default.______last_registered_player;
+                    }
+                    
                     __index = 0;
                     timer.Start();
                     break;
@@ -587,7 +599,7 @@ namespace CL_RTC_Grab
         {
             try
             {
-                string password = username + date_register + "youdieidie";
+                string password = username.ToLower() + date_register + "youdieidie";
                 byte[] encodedPassword = new UTF8Encoding().GetBytes(password);
                 byte[] hash = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5")).ComputeHash(encodedPassword);
                 string token = BitConverter.ToString(hash)
@@ -643,7 +655,7 @@ namespace CL_RTC_Grab
         {
             try
             {
-                string password = username + date_register + "youdieidie";
+                string password = username.ToLower() + date_register + "youdieidie";
                 byte[] encodedPassword = new UTF8Encoding().GetBytes(password);
                 byte[] hash = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5")).ComputeHash(encodedPassword);
                 string token = BitConverter.ToString(hash)
@@ -773,11 +785,11 @@ namespace CL_RTC_Grab
             // todo
             if (Properties.Settings.Default.______last_registered_player == "")
             {
-                Properties.Settings.Default.______last_registered_player = "a76847510";
+                Properties.Settings.Default.______last_registered_player = "mri520";
                 Properties.Settings.Default.Save();
             }
             
-            Properties.Settings.Default.______last_registered_player_deposit = "rtmzaq";
+            Properties.Settings.Default.______last_registered_player_deposit = "mri520";
             Properties.Settings.Default.Save();
 
             label_player_last_registered.Text = "Last Registered: " + Properties.Settings.Default.______last_registered_player;
@@ -793,11 +805,6 @@ namespace CL_RTC_Grab
         {
             __isInsert = true;
             timer_detect.Stop();
-            //__get_time = DateTime.Now.ToString("HH:mm:ss");
-            //if (__get_time == "23:00:00")
-            //{
-            //    __isInsert = true;
-            //}
         }
 
         private void timer_landing_Tick(object sender, EventArgs e)
@@ -874,40 +881,55 @@ namespace CL_RTC_Grab
                 
                 JToken username = __jo_deposit.SelectToken("PageData[" + i + "].Account").ToString();
 
+                if (username.ToString() == Properties.Settings.Default.______last_registered_player)
+                {
+                    __detectInsert_deposit = true;
+                }
+
                 bool isInsert = false;
 
-                using (StreamReader sr = File.OpenText(Path.GetTempPath() + path))
+                if (__detectInsert_deposit)
                 {
-                    string s = String.Empty;
-                    while ((s = sr.ReadLine()) != null)
+                    using (StreamReader sr = File.OpenText(Path.GetTempPath() + path))
                     {
-                        Application.DoEvents();
+                        string s = String.Empty;
+                        while ((s = sr.ReadLine()) != null)
+                        {
+                            Application.DoEvents();
 
-                        if (s == username.ToString())
-                        {
-                            isInsert = true;
-                            break;
+                            if (s == username.ToString())
+                            {
+                                isInsert = true;
+                                break;
+                            }
+                            else
+                            {
+                                isInsert = false;
+                            }
                         }
-                        else
-                        {
-                            isInsert = false;
-                        }
+                        sr.Close();
                     }
-                    sr.Close();
                 }
 
                 if (i == 9)
                 {
-                    __isInsertDetect_deposit = false;
                     __index_deposit++;
-                    ___GetPlayerListsRequestAsync_Deposit(__index_deposit.ToString(), __conn_id.ToString());
+
+                    if (!__isInsertDetect_deposit)
+                    {
+                        __isInsertDetect_deposit = false;
+                        ___GetPlayerListsRequestAsync_Deposit(__index_deposit.ToString(), __conn_id.ToString());
+                    }
                 }
 
                 if (username.ToString() != Properties.Settings.Default.______last_registered_player_deposit)
                 {
-                    if (!isInsert)
+                    if (__detectInsert_deposit)
                     {
-                        await ___PlayerGetDetailAsync_Deposit(username.ToString());
+                        if (!isInsert)
+                        {
+                            await ___PlayerGetDetailAsync_Deposit(username.ToString());
+                        }
                     }
                         
                     if (__player_ldd_deposit == "1")
@@ -920,14 +942,17 @@ namespace CL_RTC_Grab
                             date_time_register = date_time_register.ToString().Replace(")/", "");
                             DateTime date_time_register_replace = new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(Math.Round(Convert.ToDouble(date_time_register.ToString()) / 1000d)).ToLocalTime();
 
-                            if (!isInsert)
+                            if (__detectInsert_deposit)
                             {
-                                __player_info_deposit.Add(username + "*|*" + __player_ldd_deposit);
-
-                                using (StreamWriter file = new StreamWriter(Path.GetTempPath() + path, true, Encoding.UTF8))
+                                if (!isInsert)
                                 {
-                                    file.WriteLine(username.ToString());
-                                    file.Close();
+                                    __player_info_deposit.Add(username + "*|*" + __player_ldd_deposit);
+
+                                    using (StreamWriter file = new StreamWriter(Path.GetTempPath() + path, true, Encoding.UTF8))
+                                    {
+                                        file.WriteLine(username.ToString());
+                                        file.Close();
+                                    }
                                 }
                             }
 
@@ -977,15 +1002,17 @@ namespace CL_RTC_Grab
                                 }
                             }
 
-                            ___InsertData_Deposit(_username, _date_deposit, __brand_code);
+                            Thread t = new Thread(delegate () { ___InsertData_Deposit(_username, _date_deposit, __brand_code); });
+                            t.Start();
+                            
                             __count_deposit = 0;
                         }
-
-                        __player_info_deposit.Clear();
-                        __index_deposit = 0;
-                        __isInsertDetect_deposit = true;
                     }
-                        
+                    
+                    __player_info_deposit.Clear();
+                    __index_deposit = 0;
+                    __isInsertDetect_deposit = true;
+
                     break;
                 }
             }
@@ -1067,7 +1094,7 @@ namespace CL_RTC_Grab
         {
             try
             {
-                string password = username + last_deposit_date + "youdieidie";
+                string password = username.ToLower() + last_deposit_date + "youdieidie";
                 byte[] encodedPassword = new UTF8Encoding().GetBytes(password);
                 byte[] hash = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5")).ComputeHash(encodedPassword);
                 string token = BitConverter.ToString(hash)
@@ -1115,7 +1142,7 @@ namespace CL_RTC_Grab
         {
             try
             {
-                string password = username + last_deposit_date + "youdieidie";
+                string password = username.ToLower() + last_deposit_date + "youdieidie";
                 byte[] encodedPassword = new UTF8Encoding().GetBytes(password);
                 byte[] hash = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5")).ComputeHash(encodedPassword);
                 string token = BitConverter.ToString(hash)
@@ -1155,6 +1182,63 @@ namespace CL_RTC_Grab
                 else
                 {
                     ___InsertData_Deposit(username, last_deposit_date, brand);
+                }
+            }
+        }
+
+        private void timer_deposit_last_registered_Tick(object sender, EventArgs e)
+        {
+            string path = Path.GetTempPath() + @"\rtcgrab_cl_deposit.txt";
+            if (__isInsert_deposit)
+            {
+                if (label_player_last_registered.Text != "-" && label_player_last_registered.Text.Trim() != "")
+                {
+                    if (Properties.Settings.Default.______detect_deposit == "")
+                    {
+                        DateTime today = DateTime.Now;
+                        DateTime date = today.AddDays(1);
+                        Properties.Settings.Default.______detect_deposit = date.ToString("yyyy-MM-dd 23");
+                        Properties.Settings.Default.Save();
+                    }
+                    else
+                    {
+                        DateTime today = DateTime.Now;
+                        if (Properties.Settings.Default.______detect_deposit == today.ToString("yyyy-MM-dd HH"))
+                        {
+                            Properties.Settings.Default.______detect_deposit = "";
+                            Properties.Settings.Default.Save();
+
+                            Properties.Settings.Default.______last_registered_player_deposit = label_player_last_registered.Text;
+                            Properties.Settings.Default.Save();
+
+                            if (File.Exists(path))
+                            {
+                                File.Delete(path);
+                            }
+                        }
+                        else
+                        {
+                            string start_datetime = today.ToString("yyyy-MM-dd HH");
+                            DateTime start = DateTime.ParseExact(start_datetime, "yyyy-MM-dd HH", CultureInfo.InvariantCulture);
+
+                            string end_datetime = Properties.Settings.Default.______detect_deposit;
+                            DateTime end = DateTime.ParseExact(end_datetime, "yyyy-MM-dd HH", CultureInfo.InvariantCulture);
+
+                            if (start > end)
+                            {
+                                Properties.Settings.Default.______detect_deposit = "";
+                                Properties.Settings.Default.Save();
+
+                                Properties.Settings.Default.______last_registered_player_deposit = label_player_last_registered.Text;
+                                Properties.Settings.Default.Save();
+
+                                if (File.Exists(path))
+                                {
+                                    File.Delete(path);
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
