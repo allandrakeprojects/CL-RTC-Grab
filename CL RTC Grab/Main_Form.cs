@@ -153,7 +153,8 @@ namespace CL_RTC_Grab
         public Main_Form()
         {
             InitializeComponent();
-
+            
+            ___DepositLastRegistered();
             timer_landing.Start();
         }
 
@@ -785,12 +786,15 @@ namespace CL_RTC_Grab
             // todo
             if (Properties.Settings.Default.______last_registered_player == "")
             {
-                Properties.Settings.Default.______last_registered_player = "mri520";
+                Properties.Settings.Default.______last_registered_player = "hanyunsong";
                 Properties.Settings.Default.Save();
             }
-            
-            Properties.Settings.Default.______last_registered_player_deposit = "mri520";
-            Properties.Settings.Default.Save();
+
+            if (Properties.Settings.Default.______last_registered_player_deposit == "")
+            {
+                Properties.Settings.Default.______last_registered_player_deposit = "hanyunsong";
+                Properties.Settings.Default.Save();
+            }
 
             label_player_last_registered.Text = "Last Registered: " + Properties.Settings.Default.______last_registered_player;
         }
@@ -1016,9 +1020,10 @@ namespace CL_RTC_Grab
                     break;
                 }
             }
-
+            
             if (__isInsertDetect_deposit)
             {
+                ___DepositLastRegistered();
                 __isInsert_deposit = true;
             }
         }
@@ -1186,7 +1191,7 @@ namespace CL_RTC_Grab
             }
         }
 
-        private void timer_deposit_last_registered_Tick(object sender, EventArgs e)
+        private void ___DepositLastRegistered()
         {
             string path = Path.GetTempPath() + @"\rtcgrab_cl_deposit.txt";
             if (__isInsert_deposit)
@@ -1206,9 +1211,7 @@ namespace CL_RTC_Grab
                         if (Properties.Settings.Default.______detect_deposit == today.ToString("yyyy-MM-dd HH"))
                         {
                             Properties.Settings.Default.______detect_deposit = "";
-                            Properties.Settings.Default.Save();
-
-                            Properties.Settings.Default.______last_registered_player_deposit = label_player_last_registered.Text;
+                            Properties.Settings.Default.______last_registered_player_deposit = label_player_last_registered.Text.Replace("Last Registered: ", "");
                             Properties.Settings.Default.Save();
 
                             if (File.Exists(path))
@@ -1227,9 +1230,7 @@ namespace CL_RTC_Grab
                             if (start > end)
                             {
                                 Properties.Settings.Default.______detect_deposit = "";
-                                Properties.Settings.Default.Save();
-
-                                Properties.Settings.Default.______last_registered_player_deposit = label_player_last_registered.Text;
+                                Properties.Settings.Default.______last_registered_player_deposit = label_player_last_registered.Text.Replace("Last Registered: ", "");
                                 Properties.Settings.Default.Save();
 
                                 if (File.Exists(path))
