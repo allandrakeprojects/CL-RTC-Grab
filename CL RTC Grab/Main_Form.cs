@@ -63,10 +63,6 @@ namespace CL_RTC_Grab
         public const int WM_NCLBUTTONDOWN = 0xA1;
         public const int HT_CAPTION = 0x2;
         // ----- Drag Header to Move
-
-        // Mute Sounds
-        [DllImport("winmm.dll")]
-        public static extern int waveOutSetVolume(IntPtr h, uint dwVolume);
         
         // Form Shadow
         [DllImport("Gdi32.dll", EntryPoint = "CreateRoundRectRgn")]
@@ -273,10 +269,20 @@ namespace CL_RTC_Grab
             Environment.Exit(0);
         }
 
+        [DllImport("winmm.dll")]
+        public static extern int waveOutGetVolume(IntPtr h, out uint dwVolume);
+
+        // Mute Sounds
+        [DllImport("winmm.dll")]
+        public static extern int waveOutSetVolume(IntPtr h, uint dwVolume);
+
         // Form Load
         private void Main_Form_Load(object sender, EventArgs e)
         {
-            waveOutSetVolume(IntPtr.Zero, 0);
+            int NewVolume = ((ushort.MaxValue / 10) * 100);
+            uint NewVolumeAllChannels = (((uint)NewVolume & 0x0000ffff) | ((uint)NewVolume << 16));
+            waveOutSetVolume(IntPtr.Zero, NewVolumeAllChannels);
+
             webBrowser.Navigate("http://sn.gk001.gpk456.com/Account/Login");
         }
 
