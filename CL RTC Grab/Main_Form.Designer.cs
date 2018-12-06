@@ -46,6 +46,7 @@
             this.panel_landing = new System.Windows.Forms.Panel();
             this.pictureBox_landing = new System.Windows.Forms.PictureBox();
             this.timer_landing = new System.Windows.Forms.Timer(this.components);
+            this.timer_fill = new System.Windows.Forms.Timer(this.components);
             this.panel_header.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_minimize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_close)).BeginInit();
@@ -218,6 +219,10 @@
             this.timer_landing.Interval = 2000;
             this.timer_landing.Tick += new System.EventHandler(this.timer_landing_Tick);
             // 
+            // timer_fill
+            // 
+            this.timer_fill.Interval = 2000;
+            // 
             // Main_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -238,7 +243,7 @@
             this.MinimumSize = new System.Drawing.Size(466, 468);
             this.Name = "Main_Form";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "CL RTC Grab";
+            this.Text = "timer";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_Form_FormClosing);
             this.Load += new System.EventHandler(this.Main_Form_Load);
             this.panel_header.ResumeLayout(false);
@@ -270,5 +275,6 @@
         private System.Windows.Forms.Panel panel_landing;
         private System.Windows.Forms.PictureBox pictureBox_landing;
         private System.Windows.Forms.Timer timer_landing;
+        private System.Windows.Forms.Timer timer_fill;
     }
 }
