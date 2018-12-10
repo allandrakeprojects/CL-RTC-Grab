@@ -887,8 +887,22 @@ namespace CL_RTC_Grab
                         file.Close();
                     }
                 }
+
+                JToken username = "";
+                try
+                {
+                    username = __jo_deposit.SelectToken("PageData[" + i + "].Account").ToString();
+                }
+                catch (Exception err)
+                {
+                    string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
+                    SendEmail("<html><body>Brand: <font color='#2160AD'>-----CL-----</font><br/>IP: 192.168.10.252<br/>Location: Robisons Summit Office<br/>Date and Time: [" + datetime + "]<br/>Message: <b>There's a problem to the server, please re-open the application.</b></body></html>");
+                    SendEmail2("<html><body>Brand: <font color='#2160AD'>-----CL-----</font><br/>IP: 192.168.10.252<br/>Location: Robisons Summit Office<br/>Date and Time: [" + datetime + "]<br/>Message: <b>There's a problem to the server, please re-open the application.</b></body></html>");
+
+                    __isClose = false;
+                    Environment.Exit(0);
+                }
                 
-                JToken username = __jo_deposit.SelectToken("PageData[" + i + "].Account").ToString();
 
                 if (username.ToString() == Properties.Settings.Default.______last_registered_player)
                 {
@@ -969,8 +983,12 @@ namespace CL_RTC_Grab
                         }
                         catch (Exception err)
                         {
-                            MessageBox.Show(err.ToString());
-                            MessageBox.Show("Please call IT Support, thank you!");
+                            string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
+                            SendEmail("<html><body>Brand: <font color='#2160AD'>-----CL-----</font><br/>IP: 192.168.10.252<br/>Location: Robisons Summit Office<br/>Date and Time: [" + datetime + "]<br/>Message: <b>There's a problem to the server, please re-open the application.</b></body></html>");
+                            SendEmail2("<html><body>Brand: <font color='#2160AD'>-----CL-----</font><br/>IP: 192.168.10.252<br/>Location: Robisons Summit Office<br/>Date and Time: [" + datetime + "]<br/>Message: <b>There's a problem to the server, please re-open the application.</b></body></html>");
+
+                            __isClose = false;
+                            Environment.Exit(0);
                         }
                     }
                 }
