@@ -47,12 +47,14 @@
             this.pictureBox_landing = new System.Windows.Forms.PictureBox();
             this.timer_landing = new System.Windows.Forms.Timer(this.components);
             this.timer_fill = new System.Windows.Forms.Timer(this.components);
+            this.eventLog1 = new System.Diagnostics.EventLog();
             this.panel_header.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_minimize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_close)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_loader)).BeginInit();
             this.panel_landing.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_landing)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.eventLog1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel_header
@@ -223,6 +225,10 @@
             // 
             this.timer_fill.Interval = 2000;
             // 
+            // eventLog1
+            // 
+            this.eventLog1.SynchronizingObject = this;
+            // 
             // Main_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -253,6 +259,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_loader)).EndInit();
             this.panel_landing.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_landing)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.eventLog1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -276,5 +283,6 @@
         private System.Windows.Forms.PictureBox pictureBox_landing;
         private System.Windows.Forms.Timer timer_landing;
         private System.Windows.Forms.Timer timer_fill;
+        private System.Diagnostics.EventLog eventLog1;
     }
 }

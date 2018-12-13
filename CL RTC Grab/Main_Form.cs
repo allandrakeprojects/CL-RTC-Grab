@@ -1295,7 +1295,7 @@ namespace CL_RTC_Grab
                 string password = "@ccess123418tech";
                 string mailFrom = "noreply@mail.com";
                 string mailTo = "drake@18tech.com";
-                string mailTitle = "YB RTC Grab";
+                string mailTitle = "CL RTC Grab";
                 string mailMessage = get_message;
 
                 using (SmtpClient client = new SmtpClient())
@@ -1346,7 +1346,7 @@ namespace CL_RTC_Grab
                 string password = "@ccess123418tech";
                 string mailFrom = "noreply@mail.com";
                 string mailTo = "it@18tech.com";
-                string mailTitle = "YB RTC Grab";
+                string mailTitle = "CL RTC Grab";
                 string mailMessage = get_message;
 
                 using (SmtpClient client = new SmtpClient())
