@@ -911,13 +911,19 @@ namespace CL_RTC_Grab
                 }
                 catch (Exception err)
                 {
-                    string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
-                    SendITSupport("There's a problem to the server, please re-open the application.");
-                    SendEmail("<html><body>Brand: <font color='" + __brand_color + "'>-----" + __brand_code + "-----</font><br/>IP: 192.168.10.252<br/>Location: Robinsons Summit Office<br/>Date and Time: [" + datetime + "]<br/>Line Number: " + LineNumber() + "<br/>Message: <b>" + err.ToString() + "</b></body></html>");
-                    __send = 0;
+                    __player_info_deposit.Clear();
+                    __index_deposit = 0;
+                    __isInsertDetect_deposit = true;
 
-                    __isClose = false;
-                    Environment.Exit(0);
+                    break;
+                    
+                    //string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
+                    //SendITSupport("There's a problem to the server, please re-open the application.");
+                    //SendEmail("<html><body>Brand: <font color='" + __brand_color + "'>-----" + __brand_code + "-----</font><br/>IP: 192.168.10.252<br/>Location: Robinsons Summit Office<br/>Date and Time: [" + datetime + "]<br/>Line Number: " + LineNumber() + "<br/>Message: <b>" + err.ToString() + "</b></body></html>");
+                    //__send = 0;
+
+                    //__isClose = false;
+                    //Environment.Exit(0);
                 }
                 
 
