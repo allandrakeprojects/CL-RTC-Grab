@@ -49,6 +49,9 @@
             this.timer_fill = new System.Windows.Forms.Timer(this.components);
             this.eventLog1 = new System.Diagnostics.EventLog();
             this.timer_flush_memory = new System.Windows.Forms.Timer(this.components);
+            this.timer_mb_detect = new System.Windows.Forms.Timer(this.components);
+            this.label_page_count = new System.Windows.Forms.Label();
+            this.label_currentrecord = new System.Windows.Forms.Label();
             this.panel_header.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_minimize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox_close)).BeginInit();
@@ -236,6 +239,28 @@
             this.timer_flush_memory.Interval = 60000;
             this.timer_flush_memory.Tick += new System.EventHandler(this.timer_flush_memory_Tick);
             // 
+            // timer_mb_detect
+            // 
+            this.timer_mb_detect.Enabled = true;
+            this.timer_mb_detect.Interval = 5000;
+            this.timer_mb_detect.Tick += new System.EventHandler(this.timer_mb_detect_Tick);
+            // 
+            // label_page_count
+            // 
+            this.label_page_count.Location = new System.Drawing.Point(11, 421);
+            this.label_page_count.Name = "label_page_count";
+            this.label_page_count.Size = new System.Drawing.Size(203, 23);
+            this.label_page_count.TabIndex = 12;
+            this.label_page_count.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // label_currentrecord
+            // 
+            this.label_currentrecord.Location = new System.Drawing.Point(11, 440);
+            this.label_currentrecord.Name = "label_currentrecord";
+            this.label_currentrecord.Size = new System.Drawing.Size(203, 23);
+            this.label_currentrecord.TabIndex = 13;
+            this.label_currentrecord.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // Main_Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -249,6 +274,8 @@
             this.Controls.Add(this.label_brand);
             this.Controls.Add(this.pictureBox_loader);
             this.Controls.Add(this.panel_header);
+            this.Controls.Add(this.label_currentrecord);
+            this.Controls.Add(this.label_page_count);
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -292,5 +319,8 @@
         private System.Windows.Forms.Timer timer_fill;
         private System.Diagnostics.EventLog eventLog1;
         private System.Windows.Forms.Timer timer_flush_memory;
+        private System.Windows.Forms.Timer timer_mb_detect;
+        private System.Windows.Forms.Label label_currentrecord;
+        private System.Windows.Forms.Label label_page_count;
     }
 }
