@@ -243,7 +243,7 @@
             // 
             this.timer_mb_detect.Enabled = true;
             this.timer_mb_detect.Interval = 5000;
-            this.timer_mb_detect.Tick += new System.EventHandler(this.timer_mb_detect_Tick);
+            this.timer_mb_detect.Tick += new System.EventHandler(this.timer_mb_detect_TickAsync);
             // 
             // label_page_count
             // 
@@ -283,7 +283,7 @@
             this.MinimumSize = new System.Drawing.Size(466, 468);
             this.Name = "Main_Form";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "timer";
+            this.Text = "CL RTC Grab";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Main_Form_FormClosing);
             this.Load += new System.EventHandler(this.Main_Form_Load);
             this.panel_header.ResumeLayout(false);

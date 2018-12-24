@@ -837,23 +837,7 @@ namespace CL_RTC_Grab
             panel_landing.Visible = false;
             timer_landing.Stop();
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
         // Deposit
         private async void ___GetPlayerListsRequestAsync_Deposit(string index, string id)
         {
@@ -1504,21 +1488,7 @@ namespace CL_RTC_Grab
                 // leave blank
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        
         private double __total_records_mb;
         private double __display_length_mb = 5000;
         private int __total_page_mb;
@@ -1534,12 +1504,13 @@ namespace CL_RTC_Grab
         private int __get_ii_display_mb = 1;
         private int __pages_count_mb = 0;
         private int __index_mb = 0;
-        private string __shared_path = "\\\\192.168.10.22\\ssi-reporting";
+        private int __last_index_mb = 0;
+        private string __shared_path = "\\\\192.168.10.22\\ssi-reporting\\";
         private string __file_name = "";
         private string __task_id = "";
         StringBuilder __csv_mb = new StringBuilder();
         StringBuilder __csv_memberrregister_custom_mb = new StringBuilder();
-                
+        
         private async Task __GetMABListsAsync(string index, string id)
         {
             try
@@ -1562,70 +1533,65 @@ namespace CL_RTC_Grab
                 string responsebody = Encoding.UTF8.GetString(result).Replace("Date", "TestDate");
                 var deserializeObject = JsonConvert.DeserializeObject(responsebody);
                 __jo_mb = JObject.Parse(responsebody.ToString());
-                await ___MABPlayerListAsync();
+                JToken count = __jo_mb.SelectToken("$.PageData");
+                __result_count_json_mb = count.Count();
+                ___MABPlayerListAsync();
             }
             catch (Exception err)
             {
-                if (__isLogin)
-                {
-                    await __GetMABListsAsync(__index_mb.ToString(), __conn_id.ToString());
-                }
+                //if (__isLogin)
+                //{
+                //    await __GetMABListsAsync(__index_mb.ToString(), __conn_id.ToString());
+                //}
             }
         }
 
-        private async Task ___MABPlayerListAsync()
+        private async void ___MABPlayerListAsync()
         {
-            if (__index == 0)
+            if (__result_count_json_mb == 10 && __result_count_json_mb > 0)
             {
-                __player_info.Clear();
-            }
-
-            for (int i = 0; i < 10; i++)
-            {
-                JToken username = __jo_mb.SelectToken("PageData[" + i + "].Account").ToString();
-                JToken mab = __jo_mb.SelectToken("PageData[" + i + "].Balance").ToString();
-
-                if (__get_ii_mb == 1)
+                for (int i = 0; i < __result_count_json_mb; i++)
                 {
-                    var header = string.Format("{0},{1},{2}", "Brand", "Username", "Main Account Balance");
-                    __csv_mb.AppendLine(header);
-                }
+                    JToken username = __jo_mb.SelectToken("PageData[" + i + "].Account").ToString();
+                    JToken mab = __jo_mb.SelectToken("PageData[" + i + "].Balance").ToString();
 
-                var newLine = string.Format("{0},{1},{2}", __brand_code, "\"" + username + "\"", "\"" + mab + "\"");
-                __csv_mb.AppendLine(newLine);
-                
-                label_currentrecord.Text = (__get_ii_display_mb).ToString("N0");
-                label_currentrecord.Invalidate();
-                label_currentrecord.Update();
+                    if (__get_ii_mb == 1)
+                    {
+                        var header = string.Format("{0},{1},{2}", "Brand", "Username", "Main Account Balance");
+                        __csv_mb.AppendLine(header);
+                    }
 
-                __get_ii_mb++;
-                __get_ii_display_mb++;
-                if (i == 9)
-                {
-                    __index_mb++;
-                    __detect_mb = true;
-                    await __GetMABListsAsync(__index_mb.ToString(), __conn_id.ToString());
-                }
-                else
-                {
-                    __detect_mb = false;
+                    var newLine = string.Format("{0},{1},{2}", __brand_code, "\"" + username + "\"", "\"" + mab + "\"");
+                    __csv_mb.AppendLine(newLine);
+
+                    label_currentrecord.Text = (__get_ii_display_mb).ToString("N0");
+                    label_currentrecord.Invalidate();
+                    label_currentrecord.Update();
+
+                    __get_ii_mb++;
+                    __get_ii_display_mb++;
+
+                    if (i == 9)
+                    {
+                        __index_mb++;
+                        await __GetMABListsAsync(__index_mb.ToString(), __conn_id.ToString());
+                    }
                 }
             }
-
-            if (__detect_mb)
+            else
             {
-                __PlayerListInsertDoneMAB();
+                await __PlayerListInsertDoneMABAsync();
             }
         }
 
-        private void __PlayerListInsertDoneMAB()
+        private async Task __PlayerListInsertDoneMABAsync()
         {
             try
             {
-                string _current_date = DateTime.Now.ToString("yyyy-MM-dd");
-                __file_name = __brand_code + "_" + _current_date;
-                string _folder_path_result = "C:\\Projects\\zeus\\uploads\\Balance\\" + __brand_code + "_" + _current_date + ".txt";
-                string _folder_path_result_xlsx = "C:\\Projects\\zeus\\uploads\\Balance\\" + __brand_code + "_" + _current_date + ".xlsx";
+                string _current_datetime = DateTime.Now.ToString("yyyy-MM-ddHHmm");
+                __file_name = __brand_code + "_" + _current_datetime;
+                string _folder_path_result = "C:\\Projects\\zeus\\uploads\\Balance\\" + __brand_code + "_" + _current_datetime + ".txt";
+                string _folder_path_result_xlsx = "C:\\Projects\\zeus\\uploads\\Balance\\" + __brand_code + "_" + _current_datetime + ".xlsx";
 
                 if (File.Exists(_folder_path_result))
                 {
@@ -1703,19 +1669,17 @@ namespace CL_RTC_Grab
                 __get_ii_mb = 1;
                 __get_ii_display_mb = 1;
                 __pages_count_mb = 0;
+                __index_mb = 0;
                 __csv_memberrregister_custom_mb.Clear();
                 label_currentrecord.Text = "";
                 label_page_count.Text = "";
 
                 // send
                 ___SetTaskStatus(__task_id, __file_name);
-
-                __file_name = "";
-                __task_id = "";
-                timer_mb_detect.Start();
             }
             catch (Exception err)
             {
+                MessageBox.Show("detect 2");
                 __count++;
                 if (__count == 5)
                 {
@@ -1729,14 +1693,15 @@ namespace CL_RTC_Grab
                 }
                 else
                 {
-                    ___GetTaskStatusAsync();
+                    MessageBox.Show(err.ToString());
+                    await __PlayerListInsertDoneMABAsync();
                 }
             }
         }
 
-        private void timer_mb_detect_Tick(object sender, EventArgs e)
+        private async void timer_mb_detect_TickAsync(object sender, EventArgs e)
         {
-
+            await ___GetTaskStatusAsync();
         }
 
         private async Task ___GetTaskStatusAsync()
@@ -1771,8 +1736,9 @@ namespace CL_RTC_Grab
                     {
                         if (webBrowser.Url.ToString() != "http://sn.gk001.gpk456.com/Account/Login" && __conn_id.ToString() != "")
                         {
-                            timer_mb_detect.Stop();
                             // start
+                            timer_mb_detect.Stop();
+                            __UpdateTaskStatus();
                             await __GetMABListsAsync(__index_mb.ToString(), __conn_id.ToString());
                         }
                         else
@@ -1841,8 +1807,9 @@ namespace CL_RTC_Grab
                     {
                         if (webBrowser.Url.ToString() != "http://sn.gk001.gpk456.com/Account/Login" && __conn_id.ToString() != "")
                         {
-                            timer_mb_detect.Stop();
                             // start
+                            timer_mb_detect.Stop();
+                            __UpdateTaskStatus();
                             await __GetMABListsAsync(__index_mb.ToString(), __conn_id.ToString());
                         }
                         else
@@ -1902,6 +1869,10 @@ namespace CL_RTC_Grab
 
                     var response = wb.UploadValues("http://zeus.ssimakati.com:8080/API/setBalanceTaskStatus", "POST", data);
                     string responseInString = Encoding.UTF8.GetString(response);
+
+                    __file_name = "";
+                    __task_id = "";
+                    timer_mb_detect.Start();
                 }
             }
             catch (Exception err)
@@ -1949,6 +1920,10 @@ namespace CL_RTC_Grab
 
                     var response = wb.UploadValues("http://zeus2.ssimakati.com:8080/API/setBalanceTaskStatus", "POST", data);
                     string responseInString = Encoding.UTF8.GetString(response);
+
+                    __file_name = "";
+                    __task_id = "";
+                    timer_mb_detect.Start();
                 }
             }
             catch (Exception err)
@@ -1974,9 +1949,98 @@ namespace CL_RTC_Grab
             }
         }
 
-        private async void button1_ClickAsync(object sender, EventArgs e)
+        private void __UpdateTaskStatus()
         {
-            await __GetMABListsAsync(__index_mb.ToString(), __conn_id.ToString());
+            try
+            {
+                string password = __brand_code + __task_id + "youdieidie";
+                byte[] encodedPassword = new UTF8Encoding().GetBytes(password);
+                byte[] hash = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5")).ComputeHash(encodedPassword);
+                string token = BitConverter.ToString(hash)
+                   .Replace("-", string.Empty)
+                   .ToLower();
+
+                using (var wb = new WebClient())
+                {
+                    var data = new NameValueCollection
+                    {
+                        ["brand_code"] = __brand_code,
+                        ["task_id"] = __task_id,
+                        ["token"] = token
+                    };
+
+                    var response = wb.UploadValues("http://zeus.ssimakati.com:8080/API/updBalanceTaskStatus", "POST", data);
+                    string responseInString = Encoding.UTF8.GetString(response);
+                }
+            }
+            catch (Exception err)
+            {
+                if (__isLogin)
+                {
+                    __count++;
+                    if (__count == 5)
+                    {
+                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
+                        SendITSupport("There's a problem to the server, please re-open the application.");
+                        SendEmail("<html><body>Brand: <font color='" + __brand_color + "'>-----" + __brand_code + "-----</font><br/>IP: 192.168.10.252<br/>Location: Robinsons Summit Office<br/>Date and Time: [" + datetime + "]<br/>Line Number: " + LineNumber() + "<br/>Message: <b>" + err.ToString() + "</b></body></html>");
+                        __send = 0;
+
+                        __isClose = false;
+                        Environment.Exit(0);
+                    }
+                    else
+                    {
+                        __UpdateTaskStatus2();
+                    }
+                }
+            }
+        }
+
+        private void __UpdateTaskStatus2()
+        {
+            try
+            {
+                string password = __brand_code + __task_id + "youdieidie";
+                byte[] encodedPassword = new UTF8Encoding().GetBytes(password);
+                byte[] hash = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5")).ComputeHash(encodedPassword);
+                string token = BitConverter.ToString(hash)
+                   .Replace("-", string.Empty)
+                   .ToLower();
+
+                using (var wb = new WebClient())
+                {
+                    var data = new NameValueCollection
+                    {
+                        ["brand_code"] = __brand_code,
+                        ["task_id"] = __task_id,
+                        ["token"] = token
+                    };
+
+                    var response = wb.UploadValues("http://zeus2.ssimakati.com:8080/API/updBalanceTaskStatus", "POST", data);
+                    string responseInString = Encoding.UTF8.GetString(response);
+                }
+            }
+            catch (Exception err)
+            {
+                if (__isLogin)
+                {
+                    __count++;
+                    if (__count == 5)
+                    {
+                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
+                        SendITSupport("There's a problem to the server, please re-open the application.");
+                        SendEmail("<html><body>Brand: <font color='" + __brand_color + "'>-----" + __brand_code + "-----</font><br/>IP: 192.168.10.252<br/>Location: Robinsons Summit Office<br/>Date and Time: [" + datetime + "]<br/>Line Number: " + LineNumber() + "<br/>Message: <b>" + err.ToString() + "</b></body></html>");
+                        __send = 0;
+
+                        __isClose = false;
+                        Environment.Exit(0);
+                    }
+                    else
+                    {
+                        __UpdateTaskStatus();
+                    }
+                }
+            }
         }
     }
 }
