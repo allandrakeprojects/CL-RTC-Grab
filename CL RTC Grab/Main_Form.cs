@@ -50,6 +50,7 @@ namespace CL_RTC_Grab
         private string __brand_code = "CL";
         private string __brand_color = "#2160AD";
         private int __count = 0;
+        Form __mainFormHandler;
 
         // Deposit
         private JObject __jo_deposit;
@@ -238,6 +239,14 @@ namespace CL_RTC_Grab
                 SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
             }
         }
+        private void pictureBox_header_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
         // ----- Drag to Move
 
         // Click Close
@@ -313,6 +322,14 @@ namespace CL_RTC_Grab
                         {
                             if (__isStart)
                             {
+                                label_brand.Visible = false;
+                                pictureBox_loader.Visible = false;
+                                label_player_last_registered.Visible = false;
+                                label_page_count.Visible = false;
+                                label_currentrecord.Visible = false;
+                                __mainFormHandler = Application.OpenForms[0];
+                                __mainFormHandler.Size = new Size(466, 468);
+                                
                                 string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                                 SendITSupport("The application have been logout, please re-login again.");
                                 SendEmail("<html><body>Brand: <font color='" + __brand_color + "'>-----" + __brand_code + "-----</font><br/>IP: 192.168.10.252<br/>Location: Robinsons Summit Office<br/>Date and Time: [" + datetime + "]<br/>Line Number: " + LineNumber() + "<br/>Message: <b>The application have been logout, please re-login again.</b></body></html>");
@@ -333,6 +350,14 @@ namespace CL_RTC_Grab
 
                         if (webBrowser.Url.ToString().Equals("http://sn.gk001.gpk456.com/"))
                         {
+                            label_brand.Visible = true;
+                            pictureBox_loader.Visible = true;
+                            label_player_last_registered.Visible = true;
+                            label_page_count.Visible = true;
+                            label_currentrecord.Visible = true;
+                            __mainFormHandler = Application.OpenForms[0];
+                            __mainFormHandler.Size = new Size(466, 168);
+
                             __isLogin = true;
                             
                             if (!__isStart)
@@ -627,7 +652,7 @@ namespace CL_RTC_Grab
         {
             try
             {
-                string password = username.ToLower() + date_register + "youdieidie";
+                string password = username + date_register + "youdieidie";
                 byte[] encodedPassword = new UTF8Encoding().GetBytes(password);
                 byte[] hash = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5")).ComputeHash(encodedPassword);
                 string token = BitConverter.ToString(hash)
@@ -682,7 +707,7 @@ namespace CL_RTC_Grab
         {
             try
             {
-                string password = username.ToLower() + date_register + "youdieidie";
+                string password = username + date_register + "youdieidie";
                 byte[] encodedPassword = new UTF8Encoding().GetBytes(password);
                 byte[] hash = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5")).ComputeHash(encodedPassword);
                 string token = BitConverter.ToString(hash)
@@ -1138,7 +1163,7 @@ namespace CL_RTC_Grab
         {
             try
             {
-                string password = username.ToLower() + last_deposit_date + "youdieidie";
+                string password = username + last_deposit_date + "youdieidie";
                 byte[] encodedPassword = new UTF8Encoding().GetBytes(password);
                 byte[] hash = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5")).ComputeHash(encodedPassword);
                 string token = BitConverter.ToString(hash)
@@ -1185,7 +1210,7 @@ namespace CL_RTC_Grab
         {
             try
             {
-                string password = username.ToLower() + last_deposit_date + "youdieidie";
+                string password = username + last_deposit_date + "youdieidie";
                 byte[] encodedPassword = new UTF8Encoding().GetBytes(password);
                 byte[] hash = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5")).ComputeHash(encodedPassword);
                 string token = BitConverter.ToString(hash)
