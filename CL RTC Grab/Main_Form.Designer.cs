@@ -78,8 +78,8 @@
             // 
             // pictureBox_header
             // 
-            this.pictureBox_header.Image = global::CL_RTC_Grab.Properties.Resources.rtc_cl;
-            this.pictureBox_header.Location = new System.Drawing.Point(120, 10);
+            this.pictureBox_header.Image = global::CL_RTC_Grab.Properties.Resources.rtc_header;
+            this.pictureBox_header.Location = new System.Drawing.Point(14, 10);
             this.pictureBox_header.Name = "pictureBox_header";
             this.pictureBox_header.Size = new System.Drawing.Size(27, 24);
             this.pictureBox_header.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -101,7 +101,7 @@
             // 
             this.label_title.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label_title.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label_title.Location = new System.Drawing.Point(1, 0);
+            this.label_title.Location = new System.Drawing.Point(39, 0);
             this.label_title.Name = "label_title";
             this.label_title.Size = new System.Drawing.Size(123, 45);
             this.label_title.TabIndex = 2;

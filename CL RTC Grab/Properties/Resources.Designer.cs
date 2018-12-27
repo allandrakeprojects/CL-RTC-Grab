@@ -112,6 +112,16 @@ namespace CL_RTC_Grab.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap rtc_header {
+            get {
+                object obj = ResourceManager.GetObject("rtc_header", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap rtc_loader {
             get {
                 object obj = ResourceManager.GetObject("rtc_loader", resourceCulture);
