@@ -10,7 +10,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
-using System.Threading;
 using System.Globalization;
 using System.Diagnostics;
 using System.Linq;
@@ -51,6 +50,8 @@ namespace CL_RTC_Grab
         private string __brand_code = "CL";
         private string __brand_color = "#2160AD";
         private string __app = "RTC Grab";
+        private string __username = "clrtcgrab";
+        private string __password = "123456789";
         Form __mainFormHandler;
 
         // Deposit
@@ -449,6 +450,7 @@ namespace CL_RTC_Grab
                 var deserializeObject = JsonConvert.DeserializeObject(result);
                 __jo = JObject.Parse(deserializeObject.ToString());
                 __conn_id = __jo.SelectToken("$.ConnectionId");
+
                 await ___GetPlayerListsRequestAsync(__index.ToString(), __conn_id.ToString());
                 ___GetPlayerListsRequestAsync_Deposit(__index_deposit.ToString(), __conn_id.ToString());
             }
@@ -483,7 +485,6 @@ namespace CL_RTC_Grab
                 WebClient wc = new WebClient();
 
                 wc.Headers.Add("Cookie", cookie);
-                wc.Credentials = new NetworkCredential("test3", "test4");
                 wc.Encoding = Encoding.UTF8;
                 wc.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
                 wc.Headers["X-Requested-With"] = "XMLHttpRequest";
@@ -1167,9 +1168,8 @@ namespace CL_RTC_Grab
                                 }
                             }
 
-                            Thread t = new Thread(delegate () { ___InsertData_Deposit(_username, _date_deposit, __brand_code); });
-                            t.Start();
-                            
+                            ___InsertData_Deposit(_username, _date_deposit, __brand_code);
+
                             __count_deposit = 0;
                         }
                     }
@@ -1368,7 +1368,6 @@ namespace CL_RTC_Grab
                     __count_deposit++;
                     if (__count_deposit == 5)
                     {
-                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
                         __send = 0;
@@ -1461,11 +1460,14 @@ namespace CL_RTC_Grab
                 __send++;
                 if (__send == 5)
                 {
-                    SendMyBot(message);
+                    MessageBox.Show(err.ToString());
+
+                    __isClose = false;
+                    Environment.Exit(0);
                 }
                 else
                 {
-                    MessageBox.Show(err.ToString());
+                    SendMyBot(message);
                 }
             }
         }
@@ -1497,11 +1499,14 @@ namespace CL_RTC_Grab
                 __send++;
                 if (__send == 5)
                 {
-                    SendITSupport(message);
+                    MessageBox.Show(err.ToString());
+
+                    __isClose = false;
+                    Environment.Exit(0);
                 }
                 else
                 {
-                    MessageBox.Show(err.ToString());
+                    SendITSupport(message);
                 }
             }
         }
@@ -2230,6 +2235,11 @@ namespace CL_RTC_Grab
             Properties.Settings.Default.______last_registered_player = "";
             Properties.Settings.Default.______last_registered_player_deposit = "";
             Properties.Settings.Default.Save();
+        }
+
+        public bool AcceptAllCertifications(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certification, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
+        {
+            return true;
         }
     }
 }
