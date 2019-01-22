@@ -50,6 +50,7 @@ namespace CL_RTC_Grab
         private string __brand_code = "CL";
         private string __brand_color = "#2160AD";
         private string __app = "RTC Grab";
+        private string __app_type = "0";
         private string __username = "clrtcgrab";
         private string __password = "123456789";
         Form __mainFormHandler;
@@ -257,7 +258,7 @@ namespace CL_RTC_Grab
             if (dr == DialogResult.Yes)
             {
                 __isClose = true;
-                Environment.Exit(0);
+                Application.Exit();
             }
         }
 
@@ -279,11 +280,11 @@ namespace CL_RTC_Grab
                 }
                 else
                 {
-                    Environment.Exit(0);
+                    Application.Exit();
                 }
             }
 
-            Environment.Exit(0);
+            Application.Exit();
         }
 
         [DllImport("winmm.dll")]
@@ -382,7 +383,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Environment.Exit(0);
+                        Application.Exit();
                     }
                 }
             }
@@ -467,7 +468,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Environment.Exit(0);
+                        Application.Exit();
                     }
                     else
                     {
@@ -514,7 +515,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Environment.Exit(0);
+                        Application.Exit();
                     }
                     else
                     {
@@ -575,7 +576,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Environment.Exit(0);
+                        Application.Exit();
                     }
                 }
                 else
@@ -758,7 +759,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Environment.Exit(0);
+                        Application.Exit();
                     }
                     else
                     {
@@ -818,7 +819,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Environment.Exit(0);
+                        Application.Exit();
                     }
                     else
                     {
@@ -869,7 +870,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Environment.Exit(0);
+                        Application.Exit();
                     }
                     else
                     {
@@ -923,7 +924,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Environment.Exit(0);
+                        Application.Exit();
                     }
                     else
                     {
@@ -999,7 +1000,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Environment.Exit(0);
+                        Application.Exit();
                     }
                     else
                     {
@@ -1127,7 +1128,7 @@ namespace CL_RTC_Grab
                             __send = 0;
 
                             __isClose = false;
-                            Environment.Exit(0);
+                            Application.Exit();
                         }
                     }
                 }
@@ -1226,7 +1227,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Environment.Exit(0);
+                        Application.Exit();
                     }
                     else
                     {
@@ -1280,7 +1281,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Environment.Exit(0);
+                        Application.Exit();
                     }
                     else
                     {
@@ -1327,7 +1328,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Environment.Exit(0);
+                        Application.Exit();
                     }
                     else
                     {
@@ -1373,7 +1374,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Environment.Exit(0);
+                        Application.Exit();
                     }
                     else
                     {
@@ -1441,7 +1442,7 @@ namespace CL_RTC_Grab
                 string urlString = "https://api.telegram.org/bot{0}/sendMessage?chat_id={1}&text={2}";
                 string apiToken = "772918363:AAHn2ufmP3ocLEilQ1V-IHcqYMcSuFJHx5g";
                 string chatId = "@allandrake";
-                string text = "Brand:%20-----" + __brand_code + " " + __app + "-----%0AIP:%20192.168.10.252%0ALocation:%20Robinsons%20Summit%20Office%0ADate%20and%20Time:%20[" + datetime + "]%0AMessage:%20" + message + "";
+                string text = "-----" + __brand_code + " " + __app + "-----%0A%0AIP:%20" + Properties.Settings.Default.______server_ip + "%0ALocation:%20" + Properties.Settings.Default.______server_location + "%0ADate%20and%20Time:%20[" + datetime + "]%0AMessage:%20" + message + "";
                 urlString = String.Format(urlString, apiToken, chatId, text);
                 WebRequest request = WebRequest.Create(urlString);
                 Stream rs = request.GetResponse().GetResponseStream();
@@ -1463,7 +1464,7 @@ namespace CL_RTC_Grab
                     MessageBox.Show(err.ToString());
 
                     __isClose = false;
-                    Environment.Exit(0);
+                    Application.Exit();
                 }
                 else
                 {
@@ -1478,9 +1479,9 @@ namespace CL_RTC_Grab
             {
                 string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                 string urlString = "https://api.telegram.org/bot{0}/sendMessage?chat_id={1}&text={2}";
-                string apiToken = "730388860:AAEwto3A-XT5UBTEEe3wBUQ5edxde8z508Q";
-                string chatId = "@rtc_grab_it_support";
-                string text = "Brand:%20-----" + __brand_code + "-----%0AIP:%20192.168.10.252%0ALocation:%20Robinsons%20Summit%20Office%0ADate%20and%20Time:%20[" + datetime + "]%0AMessage:%20" + message + "";
+                string apiToken = "612187347:AAE9doWWcStpWrDrfpOod89qGSxCJ5JwQO4";
+                string chatId = "@it_support_ssi";
+                string text = "-----" + __brand_code + " " + __app + "-----%0A%0AIP:%20" + Properties.Settings.Default.______server_ip + "%0ALocation:%20" + Properties.Settings.Default.______server_location + "%0ADate%20and%20Time:%20[" + datetime + "]%0AMessage:%20" + message + "";
                 urlString = String.Format(urlString, apiToken, chatId, text);
                 WebRequest request = WebRequest.Create(urlString);
                 Stream rs = request.GetResponse().GetResponseStream();
@@ -1491,7 +1492,9 @@ namespace CL_RTC_Grab
                 {
                     line = reader.ReadLine();
                     if (line != null)
+                    {
                         sb.Append(line);
+                    }
                 }
             }
             catch (Exception err)
@@ -1502,7 +1505,7 @@ namespace CL_RTC_Grab
                     MessageBox.Show(err.ToString());
 
                     __isClose = false;
-                    Environment.Exit(0);
+                    Application.Exit();
                 }
                 else
                 {
@@ -1554,7 +1557,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Environment.Exit(0);
+                        Application.Exit();
                     }
                     else
                     {
@@ -1607,7 +1610,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Environment.Exit(0);
+                        Application.Exit();
                     }
                     else
                     {
@@ -1834,7 +1837,7 @@ namespace CL_RTC_Grab
                     __send = 0;
 
                     __isClose = false;
-                    Environment.Exit(0);
+                    Application.Exit();
                 }
                 else
                 {
@@ -1910,7 +1913,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Environment.Exit(0);
+                        Application.Exit();
                     }
                     else
                     {
@@ -1981,7 +1984,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Environment.Exit(0);
+                        Application.Exit();
                     }
                     else
                     {
@@ -2033,7 +2036,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Environment.Exit(0);
+                        Application.Exit();
                     }
                     else
                     {
@@ -2084,7 +2087,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Environment.Exit(0);
+                        Application.Exit();
                     }
                     else
                     {
@@ -2131,7 +2134,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Environment.Exit(0);
+                        Application.Exit();
                     }
                     else
                     {
@@ -2178,7 +2181,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Environment.Exit(0);
+                        Application.Exit();
                     }
                     else
                     {
@@ -2240,6 +2243,109 @@ namespace CL_RTC_Grab
         public bool AcceptAllCertifications(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certification, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
         {
             return true;
+        }
+
+        private void timer_detect_running_Tick(object sender, EventArgs e)
+        {
+            ___DetectRunning();
+        }
+
+        private void ___DetectRunning()
+        {
+            try
+            {
+                string datetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                string password = __brand_code + datetime + "youdieidie";
+                byte[] encodedPassword = new UTF8Encoding().GetBytes(password);
+                byte[] hash = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5")).ComputeHash(encodedPassword);
+                string token = BitConverter.ToString(hash)
+                   .Replace("-", string.Empty)
+                   .ToLower();
+
+                using (var wb = new WebClient())
+                {
+                    var data = new NameValueCollection
+                    {
+                        ["brand_code"] = __brand_code,
+                        ["app_type"] = __app_type,
+                        ["last_update"] = datetime,
+                        ["token"] = token
+                    };
+
+                    var response = wb.UploadValues("http://zeus.ssimakati.com:8080/API/updateAppStatus", "POST", data);
+                    string responseInString = Encoding.UTF8.GetString(response);
+                }
+            }
+            catch (Exception err)
+            {
+                if (__isLogin)
+                {
+                    __send++;
+                    if (__send == 5)
+                    {
+                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
+                        SendITSupport("There's a problem to the server, please re-open the application.");
+                        SendMyBot(err.ToString());
+                        __send = 0;
+
+                        __isClose = false;
+                        Application.Exit();
+                    }
+                    else
+                    {
+                        ___DetectRunning2();
+                    }
+                }
+            }
+        }
+
+        private void ___DetectRunning2()
+        {
+            try
+            {
+                string datetime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+                string password = __brand_code + datetime + "youdieidie";
+                byte[] encodedPassword = new UTF8Encoding().GetBytes(password);
+                byte[] hash = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5")).ComputeHash(encodedPassword);
+                string token = BitConverter.ToString(hash)
+                   .Replace("-", string.Empty)
+                   .ToLower();
+
+                using (var wb = new WebClient())
+                {
+                    var data = new NameValueCollection
+                    {
+                        ["brand_code"] = __brand_code,
+                        ["app_type"] = __app_type,
+                        ["last_update"] = datetime,
+                        ["token"] = token
+                    };
+
+                    var response = wb.UploadValues("http://zeus2.ssimakati.com:8080/API/updateAppStatus", "POST", data);
+                    string responseInString = Encoding.UTF8.GetString(response);
+                }
+            }
+            catch (Exception err)
+            {
+                if (__isLogin)
+                {
+                    __send++;
+                    if (__send == 5)
+                    {
+                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
+                        SendITSupport("There's a problem to the server, please re-open the application.");
+                        SendMyBot(err.ToString());
+                        __send = 0;
+
+                        __isClose = false;
+                        Application.Exit();
+                    }
+                    else
+                    {
+                        ___DetectRunning();
+                    }
+                }
+            }
         }
     }
 }
