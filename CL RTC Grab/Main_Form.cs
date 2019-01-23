@@ -258,7 +258,7 @@ namespace CL_RTC_Grab
             if (dr == DialogResult.Yes)
             {
                 __isClose = true;
-                Application.Exit();
+                Environment.Exit(0);
             }
         }
 
@@ -280,11 +280,11 @@ namespace CL_RTC_Grab
                 }
                 else
                 {
-                    Application.Exit();
+                    Environment.Exit(0);
                 }
             }
 
-            Application.Exit();
+            Environment.Exit(0);
         }
 
         [DllImport("winmm.dll")]
@@ -383,7 +383,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Application.Exit();
+                        Environment.Exit(0);
                     }
                 }
             }
@@ -468,7 +468,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Application.Exit();
+                        Environment.Exit(0);
                     }
                     else
                     {
@@ -515,7 +515,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Application.Exit();
+                        Environment.Exit(0);
                     }
                     else
                     {
@@ -576,7 +576,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Application.Exit();
+                        Environment.Exit(0);
                     }
                 }
                 else
@@ -759,7 +759,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Application.Exit();
+                        Environment.Exit(0);
                     }
                     else
                     {
@@ -819,7 +819,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Application.Exit();
+                        Environment.Exit(0);
                     }
                     else
                     {
@@ -870,7 +870,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Application.Exit();
+                        Environment.Exit(0);
                     }
                     else
                     {
@@ -924,7 +924,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Application.Exit();
+                        Environment.Exit(0);
                     }
                     else
                     {
@@ -1000,7 +1000,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Application.Exit();
+                        Environment.Exit(0);
                     }
                     else
                     {
@@ -1128,7 +1128,7 @@ namespace CL_RTC_Grab
                             __send = 0;
 
                             __isClose = false;
-                            Application.Exit();
+                            Environment.Exit(0);
                         }
                     }
                 }
@@ -1227,7 +1227,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Application.Exit();
+                        Environment.Exit(0);
                     }
                     else
                     {
@@ -1281,7 +1281,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Application.Exit();
+                        Environment.Exit(0);
                     }
                     else
                     {
@@ -1328,7 +1328,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Application.Exit();
+                        Environment.Exit(0);
                     }
                     else
                     {
@@ -1374,7 +1374,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Application.Exit();
+                        Environment.Exit(0);
                     }
                     else
                     {
@@ -1464,7 +1464,7 @@ namespace CL_RTC_Grab
                     MessageBox.Show(err.ToString());
 
                     __isClose = false;
-                    Application.Exit();
+                    Environment.Exit(0);
                 }
                 else
                 {
@@ -1505,7 +1505,7 @@ namespace CL_RTC_Grab
                     MessageBox.Show(err.ToString());
 
                     __isClose = false;
-                    Application.Exit();
+                    Environment.Exit(0);
                 }
                 else
                 {
@@ -1557,7 +1557,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Application.Exit();
+                        Environment.Exit(0);
                     }
                     else
                     {
@@ -1610,7 +1610,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Application.Exit();
+                        Environment.Exit(0);
                     }
                     else
                     {
@@ -1837,7 +1837,7 @@ namespace CL_RTC_Grab
                     __send = 0;
 
                     __isClose = false;
-                    Application.Exit();
+                    Environment.Exit(0);
                 }
                 else
                 {
@@ -1913,7 +1913,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Application.Exit();
+                        Environment.Exit(0);
                     }
                     else
                     {
@@ -1984,7 +1984,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Application.Exit();
+                        Environment.Exit(0);
                     }
                     else
                     {
@@ -2036,7 +2036,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Application.Exit();
+                        Environment.Exit(0);
                     }
                     else
                     {
@@ -2087,7 +2087,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Application.Exit();
+                        Environment.Exit(0);
                     }
                     else
                     {
@@ -2134,7 +2134,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Application.Exit();
+                        Environment.Exit(0);
                     }
                     else
                     {
@@ -2181,7 +2181,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Application.Exit();
+                        Environment.Exit(0);
                     }
                     else
                     {
@@ -2289,7 +2289,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Application.Exit();
+                        Environment.Exit(0);
                     }
                     else
                     {
@@ -2338,7 +2338,7 @@ namespace CL_RTC_Grab
                         __send = 0;
 
                         __isClose = false;
-                        Application.Exit();
+                        Environment.Exit(0);
                     }
                     else
                     {
