@@ -35,6 +35,7 @@ namespace CL_RTC_Grab
         private bool __isStart = false;
         private bool __isBreak = false;
         private bool __isSending = false;
+        private bool __is_send = true;
         private string __player_last_username = "";
         private string __playerlist_cn;
         private string __playerlist_ea;
@@ -58,7 +59,6 @@ namespace CL_RTC_Grab
         // Deposit
         private JObject __jo_deposit;
         private int __index_deposit = 0;
-        private int __count_deposit = 0;
         List<string> __player_info_deposit = new List<string>();
         private string __player_ldd_deposit;
         private bool __isInsert_deposit = false;
@@ -377,7 +377,6 @@ namespace CL_RTC_Grab
                     }
                     catch (Exception err)
                     {
-                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
                         __send = 0;
@@ -463,7 +462,6 @@ namespace CL_RTC_Grab
                     __send++;
                     if (__send == 5)
                     {
-                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
                         __send = 0;
@@ -473,6 +471,7 @@ namespace CL_RTC_Grab
                     }
                     else
                     {
+                        ___WaitNSeconds(10);
                         await ___GetConnIDRequestAsync();
                     }
                 }
@@ -511,7 +510,6 @@ namespace CL_RTC_Grab
                     __send++;
                     if (__send == 5)
                     {
-                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
                         __send = 0;
@@ -521,6 +519,7 @@ namespace CL_RTC_Grab
                     }
                     else
                     {
+                        ___WaitNSeconds(10);
                         await ___GetPlayerListsRequestAsync(__index.ToString(), __conn_id.ToString());
                     }
                 }
@@ -572,7 +571,6 @@ namespace CL_RTC_Grab
                     }
                     catch (Exception err)
                     {
-                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
                         __send = 0;
@@ -682,7 +680,6 @@ namespace CL_RTC_Grab
                             }
                             catch (Exception err)
                             {
-                                string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                                 SendMyBot(err.ToString());
                             }
 
@@ -739,7 +736,7 @@ namespace CL_RTC_Grab
                         ["token"] = token
                     };
 
-                    var response = wb.UploadValues("http://zeus.ssitex.com:8080/API/sendRTC", "POST", data);
+                    var response = wb.UploadValues("http://192.168.10.252:8080/API/sendRTC", "POST", data);
                     string responseInString = Encoding.UTF8.GetString(response);
 
                     using (StreamWriter file = new StreamWriter(Path.GetTempPath() + @"\rtcgrab_cl.txt", true, Encoding.UTF8))
@@ -755,7 +752,6 @@ namespace CL_RTC_Grab
                     __send++;
                     if (__send == 5)
                     {
-                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
                         __send = 0;
@@ -765,6 +761,7 @@ namespace CL_RTC_Grab
                     }
                     else
                     {
+                        ___WaitNSeconds(10);
                         ____InsertData2(username, name, date_register, date_deposit, contact, email, agent, qq, wc, brand_code);
                     }
                 }
@@ -799,7 +796,7 @@ namespace CL_RTC_Grab
                         ["token"] = token
                     };
 
-                    var response = wb.UploadValues("http://zeus2.ssitex.com:8080/API/sendRTC", "POST", data);
+                    var response = wb.UploadValues("http://zeus.ssitex.com:8080/API/sendRTC", "POST", data);
                     string responseInString = Encoding.UTF8.GetString(response);
 
                     using (StreamWriter file = new StreamWriter(Path.GetTempPath() + @"\rtcgrab_cl.txt", true, Encoding.UTF8))
@@ -815,7 +812,6 @@ namespace CL_RTC_Grab
                     __send++;
                     if (__send == 5)
                     {
-                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
                         __send = 0;
@@ -825,6 +821,7 @@ namespace CL_RTC_Grab
                     }
                     else
                     {
+                        ___WaitNSeconds(10);
                         ___InsertData(username, name, date_register, date_deposit, contact, email, agent, qq, wc, brand_code);
                     }
                 }
@@ -867,7 +864,6 @@ namespace CL_RTC_Grab
                     __send++;
                     if (__send == 5)
                     {
-                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
                         __send = 0;
@@ -877,6 +873,7 @@ namespace CL_RTC_Grab
                     }
                     else
                     {
+                        ___WaitNSeconds(10);
                         await ___PlayerGetDetailAsync(username);
                     }
                 }
@@ -922,7 +919,6 @@ namespace CL_RTC_Grab
                     __send++;
                     if (__send == 5)
                     {
-                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
                         __send = 0;
@@ -932,6 +928,7 @@ namespace CL_RTC_Grab
                     }
                     else
                     {
+                        ___WaitNSeconds(10);
                         await ___PlayerGetLastDepositCountAsync(id);
                     }
                 }
@@ -999,7 +996,6 @@ namespace CL_RTC_Grab
                     __send++;
                     if (__send == 5)
                     {
-                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
                         __send = 0;
@@ -1009,6 +1005,7 @@ namespace CL_RTC_Grab
                     }
                     else
                     {
+                        ___WaitNSeconds(10);
                         ___GetPlayerListsRequestAsync_Deposit(__index_deposit.ToString(), __conn_id.ToString());
                     }
                 }
@@ -1127,7 +1124,6 @@ namespace CL_RTC_Grab
                         }
                         catch (Exception err)
                         {
-                            string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                             SendITSupport("There's a problem to the server, please re-open the application.");
                             SendMyBot(err.ToString());
                             __send = 0;
@@ -1176,7 +1172,7 @@ namespace CL_RTC_Grab
 
                             ___InsertData_Deposit(_username, _date_deposit, __brand_code);
 
-                            __count_deposit = 0;
+                            __send = 0;
                         }
                     }
                     
@@ -1227,7 +1223,6 @@ namespace CL_RTC_Grab
                     __send++;
                     if (__send == 5)
                     {
-                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
                         __send = 0;
@@ -1237,6 +1232,7 @@ namespace CL_RTC_Grab
                     }
                     else
                     {
+                        ___WaitNSeconds(10);
                         await ___PlayerGetDetailAsync_Deposit(username);
                     }
                 }
@@ -1282,7 +1278,6 @@ namespace CL_RTC_Grab
                     __send++;
                     if (__send == 5)
                     {
-                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
                         __send = 0;
@@ -1292,6 +1287,7 @@ namespace CL_RTC_Grab
                     }
                     else
                     {
+                        ___WaitNSeconds(10);
                         await ___PlayerGetLastDepositCountAsync_Deposit(id);
                     }
                 }
@@ -1319,17 +1315,16 @@ namespace CL_RTC_Grab
                         ["token"] = token
                     };
 
-                    var response = wb.UploadValues("http://zeus.ssitex.com:8080/API/sendRTCdep", "POST", data);
+                    var response = wb.UploadValues("http://192.168.10.252:8080/API/sendRTCdep", "POST", data);
                 }
             }
             catch (Exception err)
             {
                 if (__isLogin)
                 {
-                    __count_deposit++;
-                    if (__count_deposit == 5)
+                    __send++;
+                    if (__send == 5)
                     {
-                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
                         __send = 0;
@@ -1339,6 +1334,7 @@ namespace CL_RTC_Grab
                     }
                     else
                     {
+                        ___WaitNSeconds(10);
                         ___InsertData2_Deposit(username, last_deposit_date, brand);
                     }
                 }
@@ -1366,15 +1362,15 @@ namespace CL_RTC_Grab
                         ["token"] = token
                     };
 
-                    var response = wb.UploadValues("http://zeus.ssitex.com:8080/API/sendRTCdep", "POST", data);
+                    var response = wb.UploadValues("http://192.168.10.252:8080/API/sendRTCdep", "POST", data);
                 }
             }
             catch (Exception err)
             {
                 if (__isLogin)
                 {
-                    __count_deposit++;
-                    if (__count_deposit == 5)
+                    __send++;
+                    if (__send == 5)
                     {
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
@@ -1385,6 +1381,7 @@ namespace CL_RTC_Grab
                     }
                     else
                     {
+                        ___WaitNSeconds(10);
                         ___InsertData_Deposit(username, last_deposit_date, brand);
                     }
                 }
@@ -1468,13 +1465,15 @@ namespace CL_RTC_Grab
                 __send++;
                 if (__send == 5)
                 {
-                    MessageBox.Show(err.ToString());
+                    SendITSupport("There's a problem to the server, please re-open the application.");
+                    SendMyBot(err.ToString());
 
                     __isClose = false;
                     Environment.Exit(0);
                 }
                 else
                 {
+                    ___WaitNSeconds(10);
                     SendMyBot(message);
                 }
             }
@@ -1482,46 +1481,104 @@ namespace CL_RTC_Grab
 
         private void SendITSupport(string message)
         {
-            try
+            if (__is_send)
             {
-                string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
-                string urlString = "https://api.telegram.org/bot{0}/sendMessage?chat_id={1}&text={2}";
-                string apiToken = "612187347:AAE9doWWcStpWrDrfpOod89qGSxCJ5JwQO4";
-                string chatId = "@it_support_ssi";
-                string text = "-----" + __brand_code + " " + __app + "-----%0A%0AIP:%20" + Properties.Settings.Default.______server_ip + "%0ALocation:%20" + Properties.Settings.Default.______server_location + "%0ADate%20and%20Time:%20[" + datetime + "]%0AMessage:%20" + message + "";
-                urlString = String.Format(urlString, apiToken, chatId, text);
-                WebRequest request = WebRequest.Create(urlString);
-                Stream rs = request.GetResponse().GetResponseStream();
-                StreamReader reader = new StreamReader(rs);
-                string line = "";
-                StringBuilder sb = new StringBuilder();
-                while (line != null)
+                try
                 {
-                    line = reader.ReadLine();
-                    if (line != null)
+                    string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
+                    string urlString = "https://api.telegram.org/bot{0}/sendMessage?chat_id={1}&text={2}";
+                    string apiToken = "612187347:AAE9doWWcStpWrDrfpOod89qGSxCJ5JwQO4";
+                    string chatId = "@it_support_ssi";
+                    string text = "-----" + __brand_code + " " + __app + "-----%0A%0AIP:%20" + Properties.Settings.Default.______server_ip + "%0ALocation:%20" + Properties.Settings.Default.______server_location + "%0ADate%20and%20Time:%20[" + datetime + "]%0AMessage:%20" + message + "";
+                    urlString = String.Format(urlString, apiToken, chatId, text);
+                    WebRequest request = WebRequest.Create(urlString);
+                    Stream rs = request.GetResponse().GetResponseStream();
+                    StreamReader reader = new StreamReader(rs);
+                    string line = "";
+                    StringBuilder sb = new StringBuilder();
+                    while (line != null)
                     {
-                        sb.Append(line);
+                        line = reader.ReadLine();
+                        if (line != null)
+                        {
+                            sb.Append(line);
+                        }
                     }
                 }
-            }
-            catch (Exception err)
-            {
-                __send++;
-                if (__send == 5)
+                catch (Exception err)
                 {
-                    MessageBox.Show(err.ToString());
+                    __send++;
+                    if (__send == 5)
+                    {
+                        SendITSupport("There's a problem to the server, please re-open the application.");
+                        SendMyBot(err.ToString());
 
-                    __isClose = false;
-                    Environment.Exit(0);
-                }
-                else
-                {
-                    SendITSupport(message);
+                        __isClose = false;
+                        Environment.Exit(0);
+                    }
+                    else
+                    {
+                        ___WaitNSeconds(10);
+                        SendITSupport(message);
+                    }
                 }
             }
         }
 
         private void ___GetLastRegisteredPlayer()
+        {
+            try
+            {
+                string password = __brand_code + "youdieidie";
+                byte[] encodedPassword = new UTF8Encoding().GetBytes(password);
+                byte[] hash = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5")).ComputeHash(encodedPassword);
+                string token = BitConverter.ToString(hash)
+                   .Replace("-", string.Empty)
+                   .ToLower();
+
+                using (var wb = new WebClient())
+                {
+                    var data = new NameValueCollection
+                    {
+                        ["brand_code"] = __brand_code,
+                        ["token"] = token
+                    };
+
+                    var result = wb.UploadValues("http://192.168.10.252:8080/API/lastRTCrecord", "POST", data);
+                    string responsebody = Encoding.UTF8.GetString(result);
+                    var deserializeObject = JsonConvert.DeserializeObject(responsebody);
+                    JObject jo = JObject.Parse(deserializeObject.ToString());
+                    JToken plr = jo.SelectToken("$.msg");
+
+                    Properties.Settings.Default.______last_registered_player = plr.ToString();
+                    Properties.Settings.Default.______last_registered_player_deposit = plr.ToString();
+                    Properties.Settings.Default.Save();
+                }
+            }
+            catch (Exception err)
+            {
+                if (__isLogin)
+                {
+                    __send++;
+                    if (__send == 5)
+                    {
+                        SendITSupport("There's a problem to the server, please re-open the application.");
+                        SendMyBot(err.ToString());
+                        __send = 0;
+
+                        __isClose = false;
+                        Environment.Exit(0);
+                    }
+                    else
+                    {
+                        ___WaitNSeconds(10);
+                        ___GetLastRegisteredPlayer2();
+                    }
+                }
+            }
+        }
+
+        private void ___GetLastRegisteredPlayer2()
         {
             try
             {
@@ -1558,7 +1615,6 @@ namespace CL_RTC_Grab
                     __send++;
                     if (__send == 5)
                     {
-                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
                         __send = 0;
@@ -1568,59 +1624,7 @@ namespace CL_RTC_Grab
                     }
                     else
                     {
-                        ___GetLastRegisteredPlayer2();
-                    }
-                }
-            }
-        }
-
-        private void ___GetLastRegisteredPlayer2()
-        {
-            try
-            {
-                string password = __brand_code + "youdieidie";
-                byte[] encodedPassword = new UTF8Encoding().GetBytes(password);
-                byte[] hash = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5")).ComputeHash(encodedPassword);
-                string token = BitConverter.ToString(hash)
-                   .Replace("-", string.Empty)
-                   .ToLower();
-
-                using (var wb = new WebClient())
-                {
-                    var data = new NameValueCollection
-                    {
-                        ["brand_code"] = __brand_code,
-                        ["token"] = token
-                    };
-
-                    var result = wb.UploadValues("http://zeus2.ssitex.com:8080/API/lastRTCrecord", "POST", data);
-                    string responsebody = Encoding.UTF8.GetString(result);
-                    var deserializeObject = JsonConvert.DeserializeObject(responsebody);
-                    JObject jo = JObject.Parse(deserializeObject.ToString());
-                    JToken plr = jo.SelectToken("$.msg");
-
-                    Properties.Settings.Default.______last_registered_player = plr.ToString();
-                    Properties.Settings.Default.______last_registered_player_deposit = plr.ToString();
-                    Properties.Settings.Default.Save();
-                }
-            }
-            catch (Exception err)
-            {
-                if (__isLogin)
-                {
-                    __send++;
-                    if (__send == 5)
-                    {
-                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
-                        SendITSupport("There's a problem to the server, please re-open the application.");
-                        SendMyBot(err.ToString());
-                        __send = 0;
-
-                        __isClose = false;
-                        Environment.Exit(0);
-                    }
-                    else
-                    {
+                        ___WaitNSeconds(10);
                         ___GetLastRegisteredPlayer();
                     }
                 }
@@ -1839,7 +1843,6 @@ namespace CL_RTC_Grab
                 __send++;
                 if (__send == 5)
                 {
-                    string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                     SendITSupport("There's a problem to the server, please re-open the application.");
                     SendMyBot(err.ToString());
                     __send = 0;
@@ -1849,7 +1852,7 @@ namespace CL_RTC_Grab
                 }
                 else
                 {
-                    MessageBox.Show(err.ToString());
+                    ___WaitNSeconds(10);
                     await __PlayerListInsertDoneMABAsync();
                 }
             }
@@ -1861,6 +1864,77 @@ namespace CL_RTC_Grab
         }
 
         private async Task ___GetTaskStatusAsync()
+        {
+            try
+            {
+                timer_mb_detect.Stop();
+                string password = __brand_code + "youdieidie";
+                byte[] encodedPassword = new UTF8Encoding().GetBytes(password);
+                byte[] hash = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5")).ComputeHash(encodedPassword);
+                string token = BitConverter.ToString(hash)
+                   .Replace("-", string.Empty)
+                   .ToLower();
+
+                using (var wb = new WebClient())
+                {
+                    var data = new NameValueCollection
+                    {
+                        ["brand_code"] = __brand_code,
+                        ["token"] = token
+                    };
+
+                    var response = wb.UploadValues("http://192.168.10.252:8080/API/getBalanceTaskStatus", "POST", data);
+                    string responseInString = Encoding.UTF8.GetString(response);
+                    var deserializeObject = JsonConvert.DeserializeObject(responseInString);
+                    JObject jo_mb = JObject.Parse(deserializeObject.ToString());
+                    JToken status = jo_mb.SelectToken("$.status");
+                    JToken task_id = jo_mb.SelectToken("$.task_id");
+                    __task_id = task_id.ToString();
+
+                    if (status.ToString() == "1")
+                    {
+                        if (webBrowser.Url.ToString() != "http://sn.gk001.gpk456.com/Account/Login" && __conn_id.ToString() != "")
+                        {
+                            // start
+                            timer_mb_detect.Stop();
+                            __UpdateTaskStatus();
+                            await __GetMABListsAsync(__index_mb.ToString(), __conn_id.ToString());
+                        }
+                        else
+                        {
+                            timer_mb_detect.Start();
+                        }
+                    }
+                    else
+                    {
+                        timer_mb_detect.Start();
+                    }
+                }
+            }
+            catch (Exception err)
+            {
+                if (__isLogin)
+                {
+                    __send++;
+                    if (__send == 5)
+                    {
+                        SendITSupport("There's a problem to the server, please re-open the application.");
+                        SendMyBot(err.ToString());
+                        __send = 0;
+
+                        __isClose = false;
+                        Environment.Exit(0);
+                    }
+                    else
+                    {
+                        ___WaitNSeconds(10);
+                        await ___GetTaskStatus2Async();
+                    }
+                }
+            }
+        }
+
+        private async Task ___GetTaskStatus2Async()
         {
             try
             {
@@ -1915,7 +1989,6 @@ namespace CL_RTC_Grab
                     __send++;
                     if (__send == 5)
                     {
-                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
                         __send = 0;
@@ -1925,77 +1998,7 @@ namespace CL_RTC_Grab
                     }
                     else
                     {
-                        await ___GetTaskStatus2Async();
-                    }
-                }
-            }
-        }
-
-        private async Task ___GetTaskStatus2Async()
-        {
-            try
-            {
-                timer_mb_detect.Stop();
-                string password = __brand_code + "youdieidie";
-                byte[] encodedPassword = new UTF8Encoding().GetBytes(password);
-                byte[] hash = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5")).ComputeHash(encodedPassword);
-                string token = BitConverter.ToString(hash)
-                   .Replace("-", string.Empty)
-                   .ToLower();
-
-                using (var wb = new WebClient())
-                {
-                    var data = new NameValueCollection
-                    {
-                        ["brand_code"] = __brand_code,
-                        ["token"] = token
-                    };
-
-                    var response = wb.UploadValues("http://zeus2.ssitex.com:8080/API/getBalanceTaskStatus", "POST", data);
-                    string responseInString = Encoding.UTF8.GetString(response);
-                    var deserializeObject = JsonConvert.DeserializeObject(responseInString);
-                    JObject jo_mb = JObject.Parse(deserializeObject.ToString());
-                    JToken status = jo_mb.SelectToken("$.status");
-                    JToken task_id = jo_mb.SelectToken("$.task_id");
-                    __task_id = task_id.ToString();
-
-                    if (status.ToString() == "1")
-                    {
-                        if (webBrowser.Url.ToString() != "http://sn.gk001.gpk456.com/Account/Login" && __conn_id.ToString() != "")
-                        {
-                            // start
-                            timer_mb_detect.Stop();
-                            __UpdateTaskStatus();
-                            await __GetMABListsAsync(__index_mb.ToString(), __conn_id.ToString());
-                        }
-                        else
-                        {
-                            timer_mb_detect.Start();
-                        }
-                    }
-                    else
-                    {
-                        timer_mb_detect.Start();
-                    }
-                }
-            }
-            catch (Exception err)
-            {
-                if (__isLogin)
-                {
-                    __send++;
-                    if (__send == 5)
-                    {
-                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
-                        SendITSupport("There's a problem to the server, please re-open the application.");
-                        SendMyBot(err.ToString());
-                        __send = 0;
-
-                        __isClose = false;
-                        Environment.Exit(0);
-                    }
-                    else
-                    {
+                        ___WaitNSeconds(10);
                         await ___GetTaskStatusAsync();
                     }
                 }
@@ -2023,7 +2026,7 @@ namespace CL_RTC_Grab
                         ["token"] = token
                     };
 
-                    var response = wb.UploadValues("http://zeus.ssitex.com:8080/API/setBalanceTaskStatus", "POST", data);
+                    var response = wb.UploadValues("http://192.168.10.252:8080/API/setBalanceTaskStatus", "POST", data);
                     string responseInString = Encoding.UTF8.GetString(response);
 
                     __file_name = "";
@@ -2038,7 +2041,6 @@ namespace CL_RTC_Grab
                     __send++;
                     if (__send == 5)
                     {
-                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
                         __send = 0;
@@ -2048,6 +2050,7 @@ namespace CL_RTC_Grab
                     }
                     else
                     {
+                        ___WaitNSeconds(10);
                         ___SetTaskStatus2(task_id, file_name);
                     }
                 }
@@ -2074,7 +2077,7 @@ namespace CL_RTC_Grab
                         ["token"] = token
                     };
 
-                    var response = wb.UploadValues("http://zeus2.ssitex.com:8080/API/setBalanceTaskStatus", "POST", data);
+                    var response = wb.UploadValues("http://zeus.ssitex.com:8080/API/setBalanceTaskStatus", "POST", data);
                     string responseInString = Encoding.UTF8.GetString(response);
 
                     __file_name = "";
@@ -2089,7 +2092,6 @@ namespace CL_RTC_Grab
                     __send++;
                     if (__send == 5)
                     {
-                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
                         __send = 0;
@@ -2099,6 +2101,7 @@ namespace CL_RTC_Grab
                     }
                     else
                     {
+                        ___WaitNSeconds(10);
                         ___SetTaskStatus(task_id, file_name);
                     }
                 }
@@ -2106,6 +2109,53 @@ namespace CL_RTC_Grab
         }
 
         private void __UpdateTaskStatus()
+        {
+            try
+            {
+                string password = __brand_code + __task_id + "youdieidie";
+                byte[] encodedPassword = new UTF8Encoding().GetBytes(password);
+                byte[] hash = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5")).ComputeHash(encodedPassword);
+                string token = BitConverter.ToString(hash)
+                   .Replace("-", string.Empty)
+                   .ToLower();
+
+                using (var wb = new WebClient())
+                {
+                    var data = new NameValueCollection
+                    {
+                        ["brand_code"] = __brand_code,
+                        ["task_id"] = __task_id,
+                        ["token"] = token
+                    };
+
+                    var response = wb.UploadValues("http://192.168.10.252:8080/API/updBalanceTaskStatus", "POST", data);
+                    string responseInString = Encoding.UTF8.GetString(response);
+                }
+            }
+            catch (Exception err)
+            {
+                if (__isLogin)
+                {
+                    __send++;
+                    if (__send == 5)
+                    {
+                        SendITSupport("There's a problem to the server, please re-open the application.");
+                        SendMyBot(err.ToString());
+                        __send = 0;
+
+                        __isClose = false;
+                        Environment.Exit(0);
+                    }
+                    else
+                    {
+                        ___WaitNSeconds(10);
+                        __UpdateTaskStatus2();
+                    }
+                }
+            }
+        }
+
+        private void __UpdateTaskStatus2()
         {
             try
             {
@@ -2136,7 +2186,6 @@ namespace CL_RTC_Grab
                     __send++;
                     if (__send == 5)
                     {
-                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
                         __send = 0;
@@ -2146,53 +2195,7 @@ namespace CL_RTC_Grab
                     }
                     else
                     {
-                        __UpdateTaskStatus2();
-                    }
-                }
-            }
-        }
-
-        private void __UpdateTaskStatus2()
-        {
-            try
-            {
-                string password = __brand_code + __task_id + "youdieidie";
-                byte[] encodedPassword = new UTF8Encoding().GetBytes(password);
-                byte[] hash = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5")).ComputeHash(encodedPassword);
-                string token = BitConverter.ToString(hash)
-                   .Replace("-", string.Empty)
-                   .ToLower();
-
-                using (var wb = new WebClient())
-                {
-                    var data = new NameValueCollection
-                    {
-                        ["brand_code"] = __brand_code,
-                        ["task_id"] = __task_id,
-                        ["token"] = token
-                    };
-
-                    var response = wb.UploadValues("http://zeus2.ssitex.com:8080/API/updBalanceTaskStatus", "POST", data);
-                    string responseInString = Encoding.UTF8.GetString(response);
-                }
-            }
-            catch (Exception err)
-            {
-                if (__isLogin)
-                {
-                    __send++;
-                    if (__send == 5)
-                    {
-                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
-                        SendITSupport("There's a problem to the server, please re-open the application.");
-                        SendMyBot(err.ToString());
-                        __send = 0;
-
-                        __isClose = false;
-                        Environment.Exit(0);
-                    }
-                    else
-                    {
+                        ___WaitNSeconds(10);
                         __UpdateTaskStatus();
                     }
                 }
@@ -2236,16 +2239,22 @@ namespace CL_RTC_Grab
             }
             catch (Exception err)
             {
-                string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                 SendMyBot(err.ToString());
             }
         }
 
         private void panel1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            Properties.Settings.Default.______last_registered_player = "";
-            Properties.Settings.Default.______last_registered_player_deposit = "";
-            Properties.Settings.Default.Save();
+            if (__is_send)
+            {
+                __is_send = false;
+                MessageBox.Show("Telegram Notification is Disabled.", __brand_code + " " + __app, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                __is_send = true;
+                MessageBox.Show("Telegram Notification is Enabled.", __brand_code + " " + __app, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         public bool AcceptAllCertifications(object sender, System.Security.Cryptography.X509Certificates.X509Certificate certification, System.Security.Cryptography.X509Certificates.X509Chain chain, System.Net.Security.SslPolicyErrors sslPolicyErrors)
@@ -2280,7 +2289,7 @@ namespace CL_RTC_Grab
                         ["token"] = token
                     };
 
-                    var response = wb.UploadValues("http://zeus.ssitex.com:8080/API/updateAppStatus", "POST", data);
+                    var response = wb.UploadValues("http://192.168.10.252:8080/API/updateAppStatus", "POST", data);
                     string responseInString = Encoding.UTF8.GetString(response);
                 }
             }
@@ -2291,7 +2300,6 @@ namespace CL_RTC_Grab
                     __send++;
                     if (__send == 5)
                     {
-                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
                         __send = 0;
@@ -2301,6 +2309,7 @@ namespace CL_RTC_Grab
                     }
                     else
                     {
+                        ___WaitNSeconds(10);
                         ___DetectRunning2();
                     }
                 }
@@ -2329,7 +2338,7 @@ namespace CL_RTC_Grab
                         ["token"] = token
                     };
 
-                    var response = wb.UploadValues("http://zeus2.ssitex.com:8080/API/updateAppStatus", "POST", data);
+                    var response = wb.UploadValues("http://zeus.ssitex.com:8080/API/updateAppStatus", "POST", data);
                     string responseInString = Encoding.UTF8.GetString(response);
                 }
             }
@@ -2340,7 +2349,6 @@ namespace CL_RTC_Grab
                     __send++;
                     if (__send == 5)
                     {
-                        string datetime = DateTime.Now.ToString("dd MMM HH:mm:ss");
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
                         __send = 0;
@@ -2350,9 +2358,20 @@ namespace CL_RTC_Grab
                     }
                     else
                     {
+                        ___WaitNSeconds(10);
                         ___DetectRunning();
                     }
                 }
+            }
+        }
+
+        private void ___WaitNSeconds(int sec)
+        {
+            if (sec < 1) return;
+            DateTime _desired = DateTime.Now.AddSeconds(sec);
+            while (DateTime.Now < _desired)
+            {
+                Application.DoEvents();
             }
         }
     }
