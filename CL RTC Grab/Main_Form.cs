@@ -464,7 +464,6 @@ namespace CL_RTC_Grab
                     {
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
-                        __send = 0;
 
                         __isClose = false;
                         Environment.Exit(0);
@@ -512,7 +511,6 @@ namespace CL_RTC_Grab
                     {
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
-                        __send = 0;
 
                         __isClose = false;
                         Environment.Exit(0);
@@ -754,7 +752,6 @@ namespace CL_RTC_Grab
                     {
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
-                        __send = 0;
 
                         __isClose = false;
                         Environment.Exit(0);
@@ -814,7 +811,6 @@ namespace CL_RTC_Grab
                     {
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
-                        __send = 0;
 
                         __isClose = false;
                         Environment.Exit(0);
@@ -866,7 +862,6 @@ namespace CL_RTC_Grab
                     {
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
-                        __send = 0;
 
                         __isClose = false;
                         Environment.Exit(0);
@@ -921,7 +916,6 @@ namespace CL_RTC_Grab
                     {
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
-                        __send = 0;
 
                         __isClose = false;
                         Environment.Exit(0);
@@ -998,7 +992,6 @@ namespace CL_RTC_Grab
                     {
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
-                        __send = 0;
 
                         __isClose = false;
                         Environment.Exit(0);
@@ -1225,7 +1218,6 @@ namespace CL_RTC_Grab
                     {
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
-                        __send = 0;
 
                         __isClose = false;
                         Environment.Exit(0);
@@ -1280,7 +1272,6 @@ namespace CL_RTC_Grab
                     {
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
-                        __send = 0;
 
                         __isClose = false;
                         Environment.Exit(0);
@@ -1327,7 +1318,6 @@ namespace CL_RTC_Grab
                     {
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
-                        __send = 0;
 
                         __isClose = false;
                         Environment.Exit(0);
@@ -1374,7 +1364,6 @@ namespace CL_RTC_Grab
                     {
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
-                        __send = 0;
 
                         __isClose = false;
                         Environment.Exit(0);
@@ -1564,7 +1553,6 @@ namespace CL_RTC_Grab
                     {
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
-                        __send = 0;
 
                         __isClose = false;
                         Environment.Exit(0);
@@ -1617,7 +1605,6 @@ namespace CL_RTC_Grab
                     {
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
-                        __send = 0;
 
                         __isClose = false;
                         Environment.Exit(0);
@@ -1845,7 +1832,6 @@ namespace CL_RTC_Grab
                 {
                     SendITSupport("There's a problem to the server, please re-open the application.");
                     SendMyBot(err.ToString());
-                    __send = 0;
 
                     __isClose = false;
                     Environment.Exit(0);
@@ -1920,7 +1906,6 @@ namespace CL_RTC_Grab
                     {
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
-                        __send = 0;
 
                         __isClose = false;
                         Environment.Exit(0);
@@ -1991,7 +1976,6 @@ namespace CL_RTC_Grab
                     {
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
-                        __send = 0;
 
                         __isClose = false;
                         Environment.Exit(0);
@@ -2043,7 +2027,6 @@ namespace CL_RTC_Grab
                     {
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
-                        __send = 0;
 
                         __isClose = false;
                         Environment.Exit(0);
@@ -2094,7 +2077,6 @@ namespace CL_RTC_Grab
                     {
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
-                        __send = 0;
 
                         __isClose = false;
                         Environment.Exit(0);
@@ -2141,7 +2123,6 @@ namespace CL_RTC_Grab
                     {
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
-                        __send = 0;
 
                         __isClose = false;
                         Environment.Exit(0);
@@ -2188,7 +2169,6 @@ namespace CL_RTC_Grab
                     {
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
-                        __send = 0;
 
                         __isClose = false;
                         Environment.Exit(0);
@@ -2302,7 +2282,6 @@ namespace CL_RTC_Grab
                     {
                         SendITSupport("There's a problem to the server, please re-open the application.");
                         SendMyBot(err.ToString());
-                        __send = 0;
 
                         __isClose = false;
                         Environment.Exit(0);
