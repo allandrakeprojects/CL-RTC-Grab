@@ -1128,6 +1128,51 @@ namespace CL_RTC_Grab
                 }
                 else
                 {
+                    if (__detectInsert_deposit)
+                    {
+                        if (!isInsert)
+                        {
+                            await ___PlayerGetDetailAsync_Deposit(username.ToString());
+                        }
+                    }
+
+                    if (__player_ldd_deposit == "1")
+                    {
+                        JToken date_time_register = __jo_deposit.SelectToken("PageData[" + i + "].JoinTime").ToString();
+
+                        try
+                        {
+                            date_time_register = date_time_register.ToString().Replace("/TestDate(", "");
+                            date_time_register = date_time_register.ToString().Replace(")/", "");
+                            DateTime date_time_register_replace = new DateTime(1970, 1, 1, 0, 0, 0, 0).AddSeconds(Math.Round(Convert.ToDouble(date_time_register.ToString()) / 1000d)).ToLocalTime();
+
+                            if (__detectInsert_deposit)
+                            {
+                                if (!isInsert)
+                                {
+                                    __player_info_deposit.Add(username + "*|*" + __player_ldd_deposit);
+
+                                    using (StreamWriter file = new StreamWriter(Path.GetTempPath() + path, true, Encoding.UTF8))
+                                    {
+                                        file.WriteLine(username.ToString());
+                                        file.Close();
+                                    }
+                                }
+                            }
+
+                            __player_ldd_deposit = "";
+                        }
+                        catch (Exception err)
+                        {
+                            SendITSupport("There's a problem to the server, please re-open the application.");
+                            SendMyBot(err.ToString());
+                            __send = 0;
+
+                            __isClose = false;
+                            Environment.Exit(0);
+                        }
+                    }
+                    
                     if (__player_info_deposit.Count != 0)
                     {
                         __player_info_deposit.Reverse();
