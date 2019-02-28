@@ -15,6 +15,7 @@ using System.Diagnostics;
 using System.Linq;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Drawing;
+using System.Configuration;
 
 namespace CL_RTC_Grab
 {
@@ -931,12 +932,32 @@ namespace CL_RTC_Grab
         
         private void ___PlayerLastRegistered()
         {
-            if (Properties.Settings.Default.______last_registered_player == "" && Properties.Settings.Default.______last_registered_player_deposit == "")
+            try
             {
-                ___GetLastRegisteredPlayer();
-            }
+                if (Properties.Settings.Default.______last_registered_player == "" && Properties.Settings.Default.______last_registered_player_deposit == "")
+                {
+                    ___GetLastRegisteredPlayer();
+                }
 
-            label_player_last_registered.Text = "Last Registered: " + Properties.Settings.Default.______last_registered_player;
+                label_player_last_registered.Text = "Last Registered: " + Properties.Settings.Default.______last_registered_player;
+            }
+            catch (Exception err)
+            {
+                __send++;
+                if (__send == 5)
+                {
+                    SendMyBot(err.ToString() + " ----- hexadecimal");
+                    SendITSupport("There's a problem to the server, please re-open the application.");
+
+                    __isClose = false;
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    ___WaitNSeconds(10);
+                    ___PlayerLastRegistered();
+                }
+            }
         }
 
         private void ___SavePlayerLastRegistered(string username)
@@ -1496,19 +1517,39 @@ namespace CL_RTC_Grab
             }
             catch (Exception err)
             {
-                __send++;
-                if (__send == 5)
+                if (err.ToString().ToLower().Contains("hexadecimal"))
                 {
+                    string path = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath;
+                    DirectoryInfo parent_dir_01 = Directory.GetParent(path.EndsWith("\\") ? path : string.Concat(path, "\\"));
+                    DirectoryInfo parent_dir_02 = Directory.GetParent(path.EndsWith("\\") ? parent_dir_01.Parent.FullName : string.Concat(parent_dir_01.Parent.FullName, "\\"));
+                    string parent_dir = parent_dir_02.Parent.FullName;
+                    if (Directory.Exists(parent_dir))
+                    {
+                        Directory.Delete(parent_dir, true);
+                    }
+
+                    SendMyBot(err.ToString() + " ----- hexademical");
                     SendITSupport("There's a problem to the server, please re-open the application.");
-                    SendMyBot(err.ToString());
 
                     __isClose = false;
                     Environment.Exit(0);
                 }
                 else
                 {
-                    ___WaitNSeconds(10);
-                    SendMyBot(message);
+                    __send++;
+                    if (__send == 5)
+                    {
+                        SendMyBot(err.ToString());
+                        SendITSupport("There's a problem to the server, please re-open the application.");
+
+                        __isClose = false;
+                        Environment.Exit(0);
+                    }
+                    else
+                    {
+                        ___WaitNSeconds(10);
+                        SendMyBot(message);
+                    }
                 }
             }
         }
@@ -1541,19 +1582,39 @@ namespace CL_RTC_Grab
                 }
                 catch (Exception err)
                 {
-                    __send++;
-                    if (__send == 5)
+                    if (err.ToString().ToLower().Contains("hexadecimal"))
                     {
+                        string path = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath;
+                        DirectoryInfo parent_dir_01 = Directory.GetParent(path.EndsWith("\\") ? path : string.Concat(path, "\\"));
+                        DirectoryInfo parent_dir_02 = Directory.GetParent(path.EndsWith("\\") ? parent_dir_01.Parent.FullName : string.Concat(parent_dir_01.Parent.FullName, "\\"));
+                        string parent_dir = parent_dir_02.Parent.FullName;
+                        if (Directory.Exists(parent_dir))
+                        {
+                            Directory.Delete(parent_dir, true);
+                        }
+
+                        SendMyBot(err.ToString() + " ----- hexademical");
                         SendITSupport("There's a problem to the server, please re-open the application.");
-                        SendMyBot(err.ToString());
 
                         __isClose = false;
                         Environment.Exit(0);
                     }
                     else
                     {
-                        ___WaitNSeconds(10);
-                        SendITSupport(message);
+                        __send++;
+                        if (__send == 5)
+                        {
+                            SendMyBot(err.ToString());
+                            SendITSupport("There's a problem to the server, please re-open the application.");
+
+                            __isClose = false;
+                            Environment.Exit(0);
+                        }
+                        else
+                        {
+                            ___WaitNSeconds(10);
+                            SendITSupport(message);
+                        }
                     }
                 }
             }
