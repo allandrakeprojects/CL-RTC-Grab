@@ -370,7 +370,7 @@ namespace CL_RTC_Grab
                                 pictureBox_loader.Visible = true;
                                 label_player_last_registered.Visible = true;
                                 webBrowser.WebBrowserShortcutsEnabled = false;
-                                ___PlayerLastRegistered();
+                                await ___PlayerLastRegisteredAsync();
                                 await ___GetConnIDRequestAsync();
                             }
                         }
@@ -929,13 +929,16 @@ namespace CL_RTC_Grab
             }
         }
         
-        private void ___PlayerLastRegistered()
+        private async Task ___PlayerLastRegisteredAsync()
         {
+            Properties.Settings.Default.______last_registered_player = "";
+            Properties.Settings.Default.______last_registered_player_deposit = "";
+
             try
             {
                 if (Properties.Settings.Default.______last_registered_player == "" && Properties.Settings.Default.______last_registered_player_deposit == "")
                 {
-                    ___GetLastRegisteredPlayer();
+                    await ___GetLastRegisteredPlayerAsync();
                 }
 
                 label_player_last_registered.Text = "Last Registered: " + Properties.Settings.Default.______last_registered_player;
@@ -954,7 +957,7 @@ namespace CL_RTC_Grab
                 else
                 {
                     ___WaitNSeconds(10);
-                    ___PlayerLastRegistered();
+                    await ___PlayerLastRegisteredAsync();
                 }
             }
         }
@@ -1633,11 +1636,11 @@ namespace CL_RTC_Grab
             }
         }
 
-        private void ___GetLastRegisteredPlayer()
+        private async Task ___GetLastRegisteredPlayerAsync()
         {
             try
             {
-                string password = __brand_code + "youdieidie";
+                string password = __brand_code.ToString() + "youdieidie";
                 byte[] encodedPassword = new UTF8Encoding().GetBytes(password);
                 byte[] hash = ((HashAlgorithm)CryptoConfig.CreateFromName("MD5")).ComputeHash(encodedPassword);
                 string token = BitConverter.ToString(hash)
@@ -1652,12 +1655,11 @@ namespace CL_RTC_Grab
                         ["token"] = token
                     };
 
-                    var result = wb.UploadValues("http://192.168.10.252:8080/API/lastRTCrecord", "POST", data);
+                    byte[] result = await wb.UploadValuesTaskAsync("http://192.168.10.252:8080/API/lastRTCrecord", "POST", data);
                     string responsebody = Encoding.UTF8.GetString(result);
                     var deserializeObject = JsonConvert.DeserializeObject(responsebody);
                     JObject jo = JObject.Parse(deserializeObject.ToString());
                     JToken plr = jo.SelectToken("$.msg");
-
                     Properties.Settings.Default.______last_registered_player = plr.ToString();
                     Properties.Settings.Default.______last_registered_player_deposit = plr.ToString();
                     Properties.Settings.Default.Save();
@@ -1679,13 +1681,13 @@ namespace CL_RTC_Grab
                     else
                     {
                         ___WaitNSeconds(10);
-                        ___GetLastRegisteredPlayer2();
+                        await ___GetLastRegisteredPlayer2Async();
                     }
                 }
             }
         }
 
-        private void ___GetLastRegisteredPlayer2()
+        private async Task ___GetLastRegisteredPlayer2Async()
         {
             try
             {
@@ -1704,7 +1706,7 @@ namespace CL_RTC_Grab
                         ["token"] = token
                     };
 
-                    var result = wb.UploadValues("http://zeus.ssitex.com:8080/API/lastRTCrecord", "POST", data);
+                    var result = await wb.UploadValuesTaskAsync("http://zeus.ssitex.com:8080/API/lastRTCrecord", "POST", data);
                     string responsebody = Encoding.UTF8.GetString(result);
                     var deserializeObject = JsonConvert.DeserializeObject(responsebody);
                     JObject jo = JObject.Parse(deserializeObject.ToString());
@@ -1731,7 +1733,7 @@ namespace CL_RTC_Grab
                     else
                     {
                         ___WaitNSeconds(10);
-                        ___GetLastRegisteredPlayer();
+                        await ___GetLastRegisteredPlayerAsync();
                     }
                 }
             }
