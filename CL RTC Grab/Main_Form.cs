@@ -35,7 +35,6 @@ namespace CL_RTC_Grab
         private bool __isStart = false;
         private bool __isBreak = false;
         private bool __isSending = false;
-        private bool __is_send = true;
         private string __player_last_username = "";
         private string __playerlist_cn;
         private string __playerlist_ea;
@@ -336,11 +335,41 @@ namespace CL_RTC_Grab
                                 SendITSupport("The application have been logout, please re-login again.");
                                 SendMyBot("The application have been logout, please re-login again.");
                                 __send = 0;
+                                
+                                if (!Properties.Settings.Default.______is_send_telegram)
+                                {
+                                    __isClose = false;
+                                    Environment.Exit(0);
+                                }
                             }
 
                             __isLogin = false;
                             __isStart = false;
                             timer.Stop();
+
+                            //___WaitNSeconds(2);
+                            //HtmlElementCollection htmlcol = webBrowser.Document.GetElementsByTagName("input");
+                            //for (int i = 0; i < htmlcol.Count; i++)
+                            //{
+                            //    if (htmlcol[i].OuterHtml.Contains("请输入帐号"))
+                            //    {
+                            //        htmlcol[i].SetAttribute("value", "clrtcgrab");
+                            //    }
+
+                            //    if (htmlcol[i].OuterHtml.Contains("请输入密码"))
+                            //    {
+                            //        htmlcol[i].SetAttribute("value", "123456");
+                            //    }
+                            //}
+                            //HtmlElementCollection elc = webBrowser.Document.GetElementsByTagName("button");
+                            //foreach (HtmlElement el in elc)
+                            //{
+                            //    if (el.GetAttribute("type").Equals("submit"))
+                            //    {
+                            //        el.InvokeMember("Click");
+                            //    }
+                            //}
+                            
                             label_player_last_registered.Text = "-";
                             webBrowser.Document.Body.Style = "zoom:.8";
                             webBrowser.Visible = true;
@@ -1564,7 +1593,7 @@ namespace CL_RTC_Grab
 
         private void SendITSupport(string message)
         {
-            if (__is_send)
+            if (Properties.Settings.Default.______is_send_telegram)
             {
                 try
                 {
@@ -2346,14 +2375,16 @@ namespace CL_RTC_Grab
 
         private void panel1_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (__is_send)
+            if (Properties.Settings.Default.______is_send_telegram)
             {
-                __is_send = false;
+                Properties.Settings.Default.______is_send_telegram = false;
+                Properties.Settings.Default.Save();
                 MessageBox.Show("Telegram Notification is Disabled.", __brand_code + " " + __app, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                __is_send = true;
+                Properties.Settings.Default.______is_send_telegram = true;
+                Properties.Settings.Default.Save();
                 MessageBox.Show("Telegram Notification is Enabled.", __brand_code + " " + __app, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
