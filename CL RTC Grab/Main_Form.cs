@@ -35,6 +35,7 @@ namespace CL_RTC_Grab
         private bool __isStart = false;
         private bool __isBreak = false;
         private bool __isSending = false;
+        private string __root_url = "";
         private string __player_last_username = "";
         private string __playerlist_cn;
         private string __playerlist_ea;
@@ -163,7 +164,12 @@ namespace CL_RTC_Grab
         public Main_Form()
         {
             InitializeComponent();
-            
+
+            if (String.IsNullOrEmpty(__root_url))
+            {
+                __root_url = Properties.Settings.Default.______root_url.ToString();
+            }
+
             timer_landing.Start();
         }
 
@@ -300,7 +306,7 @@ namespace CL_RTC_Grab
             uint NewVolumeAllChannels = (((uint)NewVolume & 0x0000ffff) | ((uint)NewVolume << 16));
             waveOutSetVolume(IntPtr.Zero, NewVolumeAllChannels);
 
-            webBrowser.Navigate("http://sn.gk001.gpk456.com/Account/Login");
+            webBrowser.Navigate(__root_url + "/Account/Login");
         }
 
         static int LineNumber([System.Runtime.CompilerServices.CallerLineNumber] int lineNumber = 0)
@@ -319,7 +325,7 @@ namespace CL_RTC_Grab
 
                     try
                     {                        
-                        if (webBrowser.Url.ToString().Equals("http://sn.gk001.gpk456.com/Account/Login"))
+                        if (webBrowser.Url.ToString().Equals(__root_url + "/Account/Login"))
                         {
                             if (__isStart)
                             {
@@ -379,7 +385,7 @@ namespace CL_RTC_Grab
                             webBrowser.WebBrowserShortcutsEnabled = true;
                         }
 
-                        if (webBrowser.Url.ToString().Equals("http://sn.gk001.gpk456.com/"))
+                        if (webBrowser.Url.ToString().Equals(__root_url + "/"))
                         {
                             label_brand.Visible = true;
                             pictureBox_loader.Visible = true;
@@ -476,7 +482,7 @@ namespace CL_RTC_Grab
                     {"connectionId", "9ca65a15-aa52-4767-b486-60800fb872db"},
                 };
                 
-                string result = await wc.DownloadStringTaskAsync("http://sn.gk001.gpk456.com/signalr/negotiate");
+                string result = await wc.DownloadStringTaskAsync(__root_url + "/signalr/negotiate");
                 var deserializeObject = JsonConvert.DeserializeObject(result);
                 __jo = JObject.Parse(deserializeObject.ToString());
                 __conn_id = __jo.SelectToken("$.ConnectionId");
@@ -525,7 +531,7 @@ namespace CL_RTC_Grab
                     {"connectionId", id},
                 };
 
-                byte[] result = await wc.UploadValuesTaskAsync("http://sn.gk001.gpk456.com/Member/Search", "POST", reqparm);
+                byte[] result = await wc.UploadValuesTaskAsync(__root_url + "/Member/Search", "POST", reqparm);
                 string responsebody = Encoding.UTF8.GetString(result).Replace("Date", "TestDate");
                 var deserializeObject = JsonConvert.DeserializeObject(responsebody);
                 __jo = JObject.Parse(responsebody.ToString());
@@ -871,7 +877,7 @@ namespace CL_RTC_Grab
                     {"account", username}
                 };
 
-                byte[] result = await wc.UploadValuesTaskAsync("http://sn.gk001.gpk456.com/Member/GetDetail", "POST", reqparm);
+                byte[] result = await wc.UploadValuesTaskAsync(__root_url + "/Member/GetDetail", "POST", reqparm);
                 string responsebody = Encoding.UTF8.GetString(result);
                 var deserializeObject = JsonConvert.DeserializeObject(responsebody);
                 var jo = JObject.Parse(deserializeObject.ToString());
@@ -922,7 +928,7 @@ namespace CL_RTC_Grab
                     {"id", id}
                 };
 
-                byte[] result = await wc.UploadValuesTaskAsync("http://sn.gk001.gpk456.com/Member/GetDepositWithdrawInfo", "POST", reqparm);
+                byte[] result = await wc.UploadValuesTaskAsync(__root_url + "/Member/GetDepositWithdrawInfo", "POST", reqparm);
                 string responsebody = Encoding.UTF8.GetString(result);
                 var deserializeObject = JsonConvert.DeserializeObject(responsebody);
                 var jo = JObject.Parse(deserializeObject.ToString());
@@ -1029,7 +1035,7 @@ namespace CL_RTC_Grab
                     {"connectionId", id},
                 };
 
-                byte[] result = await wc.UploadValuesTaskAsync("http://sn.gk001.gpk456.com/Member/Search", "POST", reqparm);
+                byte[] result = await wc.UploadValuesTaskAsync(__root_url + "/Member/Search", "POST", reqparm);
                 string responsebody = Encoding.UTF8.GetString(result).Replace("Date", "TestDate");
                 var deserializeObject = JsonConvert.DeserializeObject(responsebody);
                 __jo_deposit = JObject.Parse(responsebody.ToString());
@@ -1299,7 +1305,7 @@ namespace CL_RTC_Grab
                     {"account", username}
                 };
 
-                byte[] result = await wc.UploadValuesTaskAsync("http://sn.gk001.gpk456.com/Member/GetDetail", "POST", reqparm);
+                byte[] result = await wc.UploadValuesTaskAsync(__root_url + "/Member/GetDetail", "POST", reqparm);
                 string responsebody = Encoding.UTF8.GetString(result);
                 var deserializeObject = JsonConvert.DeserializeObject(responsebody);
                 var jo = JObject.Parse(deserializeObject.ToString());
@@ -1346,7 +1352,7 @@ namespace CL_RTC_Grab
                     {"id", id}
                 };
 
-                byte[] result = await wc.UploadValuesTaskAsync("http://sn.gk001.gpk456.com/Member/GetDepositWithdrawInfo", "POST", reqparm);
+                byte[] result = await wc.UploadValuesTaskAsync(__root_url + "/Member/GetDepositWithdrawInfo", "POST", reqparm);
                 string responsebody = Encoding.UTF8.GetString(result);
                 var deserializeObject = JsonConvert.DeserializeObject(responsebody);
                 var jo = JObject.Parse(deserializeObject.ToString());
@@ -1826,7 +1832,7 @@ namespace CL_RTC_Grab
                     {"connectionId", id},
                 };
 
-                byte[] result = await wc.UploadValuesTaskAsync("http://sn.gk001.gpk456.com/Member/Search", "POST", reqparm);
+                byte[] result = await wc.UploadValuesTaskAsync(__root_url + "/Member/Search", "POST", reqparm);
                 string responsebody = Encoding.UTF8.GetString(result).Replace("Date", "TestDate");
                 var deserializeObject = JsonConvert.DeserializeObject(responsebody);
                 __jo_mb = JObject.Parse(responsebody.ToString());
@@ -2029,7 +2035,7 @@ namespace CL_RTC_Grab
 
                     if (status.ToString() == "1")
                     {
-                        if (webBrowser.Url.ToString() != "http://sn.gk001.gpk456.com/Account/Login" && __conn_id.ToString() != "")
+                        if (webBrowser.Url.ToString() != __root_url + "/Account/Login" && __conn_id.ToString() != "")
                         {
                             // start
                             timer_mb_detect.Stop();
@@ -2099,7 +2105,7 @@ namespace CL_RTC_Grab
 
                     if (status.ToString() == "1")
                     {
-                        if (webBrowser.Url.ToString() != "http://sn.gk001.gpk456.com/Account/Login" && __conn_id.ToString() != "")
+                        if (webBrowser.Url.ToString() != __root_url + "/Account/Login" && __conn_id.ToString() != "")
                         {
                             // start
                             timer_mb_detect.Stop();
