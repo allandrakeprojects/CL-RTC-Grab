@@ -109,7 +109,7 @@ namespace CL_RTC_Grab.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("oei.lhvds.com")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://oei.lhvds.com")]
         public string ______root_url {
             get {
                 return ((string)(this["______root_url"]));

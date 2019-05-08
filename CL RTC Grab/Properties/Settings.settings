@@ -24,7 +24,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="______root_url" Type="System.String" Scope="User">
-      <Value Profile="(Default)">oei.lhvds.com</Value>
+      <Value Profile="(Default)">http://oei.lhvds.com</Value>
     </Setting>
   </Settings>
 </SettingsFile>
